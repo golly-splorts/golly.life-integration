@@ -1,3 +1,4 @@
+/*
 (function () {
 
   var ProdCheck = {
@@ -11,9 +12,6 @@
       }
     },
 
-    /**
-     * Register Event
-     */
     registerEvent : function (element, event, handler, capture) {
       if (/msie/i.test(navigator.userAgent)) {
         element.attachEvent('on' + event, handler);
@@ -29,3 +27,4 @@
   }, false);
 
 }());
+*/

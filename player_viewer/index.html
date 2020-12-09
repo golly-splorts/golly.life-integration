@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<html lang="en">
+<head>
+
+    <title>Golly456</title>
+    <meta charset="utf-8" />
+
+    <script>
+var baseApiUrl = '';
+var baseUIUrl  = '';
+    </script>
+
+    <!--
+    CSS styles
+    -->
+    <link href="/theme/css/slate.css"  rel="stylesheet" type="text/css">
+    <link href="/theme/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="/theme/css/fa.css"     rel="stylesheet" type="text/css"/>
+
+    <link rel="icon" type="image/png" href="/theme/img/golly-favicon.png">
+
+
+</head>
+<body id="index">
+
+<!-- Navigation -->
+<div class="navbar navbar-expand-md fixed-top navbar-dark bg-primary">
+
+  <div class="container">
+
+    <a href="/" class="navbar-brand">
+      <img class="navbar-brand-logo" type="image/png" src="/theme/img/golly-favicon.png" alt="logo" />
+      Golly456
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- this is the non-brand portion of the nav bar -->
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+      <!-- begin list of navbar buttons -->
+      <ul class="navbar-nav">
+
+        <!--
+        pages order:
+        - home
+        - season*
+        - postseason*
+        - league
+        - rosters
+        - maps
+        -->
+
+        <!-- current games -->
+        <li class="nav-item">
+          <a class="nav-link" href="/index.html">Home</a>
+        </li>
+
+        <!-- seasons -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+              Season <span class="caret"></span>
+          </a>
+          <div id="navbar-season-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <!--
+            <a class="dropdown-item" href="/season.html">Season 1</a>
+            -->
+          </div>
+        </li>
+
+        <!-- postseasons -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+              Postseason <span class="caret"></span>
+          </a>
+          <div id="navbar-postseason-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <!--
+            <a class="dropdown-item" href="/postseason.html">Season 1</a>
+            -->
+          </div>
+        </li>
+
+        <!-- league -->
+        <li class="nav-item">
+          <a class="nav-link" href="/league.html">Standings</a>
+        </li>
+
+        <!-- rosters -->
+        <li class="nav-item">
+          <a class="nav-link" href="/player_viewer/">Rosters</a>
+        </li>
+
+        <!-- maps -->
+        <li class="nav-item">
+          <a class="nav-link" href="/maps.html">Maps</a>
+        </li>
+
+        <!-- simulator -->
+        <li class="nav-item">
+          <a class="nav-link" href="/simulator/index.html">Simulator</a>
+        </li>
+
+        <!-- rules -->
+        <li class="nav-item">
+          <a class="nav-link" href="/rules.html">Rules</a>
+        </li>
+
+        <!-- about -->
+        <li class="nav-item">
+          <a class="nav-link" href="/about.html">About</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container invisible" id="prodcheck-msg">
+  <p class="text-center text-danger">This is not a real Golly season! This is a test server. The real Golly season is at <a href="https://golly.life">golly.life</a>.</p>
+</div>
+
+<div class="container" id="container-player-viewer-header">
+  <div class="row">
+      <h1>Rosters</h1>
+  </div>
+</div>
+
+
+<div class="container invisible" id="container-player-team-controls">
+
+  <div class="row">
+      <p>Select a grid space to see the player that lives and dies in that location.</p>
+  </div>
+
+  <div class="row" id="row-player-team-controls">
+  
+    <div class="col-md-6" id="player-team-info-card">
+      <div class="card text-white bg-primary">
+        <div class="card-body">
+          <h4><span class="team-viewer-card-title" id="player-viewer-name">&nbsp;</span></h4>
+          <p class="card-text">
+            Team: <span class="team-viewer-card-text" id="player-viewer-team"></span>
+            <br />
+            Row: <span class="team-viewer-card-text" id="player-viewer-row"></span>
+            <br />
+            Col: <span class="team-viewer-card-text" id="player-viewer-col"></span>
+            <br />
+            Player Link: <span class="team-viewer-card-text" id="player-viewer-link"></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  
+  
+    <div class="col-md-4" id="team-select-form">
+      <div class="form-group">
+        <label for="exampleSelect1">Select a golly team:</label>
+        <select class="form-control" id="team-selector">
+          <!-- <option>1</option> -->
+        </select>
+      </div>
+      <div>
+        League: <span class="team-viewer-card-text" id="player-viewer-league"></span>
+        <br />
+        Division: <span class="team-viewer-card-text" id="player-viewer-division"></span>
+      </div>
+    </div>
+  
+  </div>
+
+</div>
+
+
+<div class="container invisible" id="container-canvas">
+  <div class="row">
+    <canvas id="canvas" width="900" height="450">
+    </canvas>
+  </div>
+</div>
+
+
+<div class="container invisible" id="container-loading">
+
+    <div class="row text-center notify-header">
+      <div class="col-md-12">
+        <h4 class="text-success">The site is currently loading...</h4>
+      </div>
+    </div>
+
+</div>
+
+
+<div class="container invisible" id="container-error">
+
+    <div class="row text-center notify-header">
+      <div class="col-md-12">
+        <h2 class="text-danger">The site has experienced a technical glitch.</h2>
+      </div>
+    </div>
+
+    <div class="row text-center notify-body">
+      <div class="col-md-12">
+        <p>
+        Ninjas have been dispatched to track down those responsible for the downtime
+        and bring them back to Hellmouth Community College to fix the site.
+        </p>
+      </div>
+    </div>
+
+</div>
+
+
+<noscript>
+  <div class="container" id="container-noscript">
+    <div class="row text-center landing-header">
+      <div class="col-md-12">
+        <h2 class="text-danger">You must have Javascript enabled to view this site.</h2>
+      </div>
+    </div>
+  </div>
+</noscript>
+
+
+
+<script type="text/javascript" src="/theme/js/geturl.js"></script>
+<script type="text/javascript" src="/theme/js/prodcheck.js"></script>
+<script type="text/javascript" src="/theme/js/navbar.js"></script>
+<script type="text/javascript" src="/theme/js/jquery.min.js"></script>
+<script type="text/javascript" src="/theme/js/bootstrap.bundle.min.js"></script>
+<script src="player_viewer.js"></script>
+
+<footer id="contentinfo" class="body">
+    <div class="text-center">
+    <p>Golly is a product of the <a href="https://ch4zm.github.io/metablaseball">Metablaseball Research Laboratory</a> at Hellmouth Community College</p>
+
+    <p>Golly Chief Architect: <a href="https://ch4zm.github.io">Ch4zm of Hellmouth</a></p>
+
+    <p>Golly Commissioner: Rubrix Helicopter</p>
+
+    <p>
+        <a rel="license" href="https://mit-license.org/">
+        <span class="fa-stack fa-2x">
+          <i class="fas fa-square fa-stack-2x" style="color: black;"></i>
+          <i class="fas fa-landmark fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+        <br />
+        Licensed under the <a rel="license" href="https://mit-license.org/">MIT License</a>.
+    </p>
+    </div>
+
+<!-- Default Statcounter code for Golly https://golly.life -->
+<script type="text/javascript">
+var sc_project=12429156;
+var sc_invisible=1;
+var sc_security="5f5d6061";
+var sc_https=1;
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript><div class="statcounter"><a title="Web Analytics Made Easy -
+StatCounter" href="https://statcounter.com/" target="_blank"><img
+class="statcounter" src="https://c.statcounter.com/12429156/0/5f5d6061/1/"
+alt="Web Analytics Made Easy - StatCounter"></a></div></noscript>
+<!-- End of Statcounter Code --></footer>
+</body>
+</html>

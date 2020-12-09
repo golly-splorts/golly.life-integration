@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<html lang="en">
+<head>
+
+    <title>Golly456</title>
+    <meta charset="utf-8" />
+
+    <script>
+var baseApiUrl = '';
+var baseUIUrl  = '';
+    </script>
+
+    <!--
+    CSS styles
+    -->
+    <link href="/theme/css/slate.css"  rel="stylesheet" type="text/css">
+    <link href="/theme/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="/theme/css/fa.css"     rel="stylesheet" type="text/css"/>
+
+    <link rel="icon" type="image/png" href="/theme/img/golly-favicon.png">
+
+
+</head>
+<body id="index">
+
+<!-- Navigation -->
+<div class="navbar navbar-expand-md fixed-top navbar-dark bg-primary">
+
+  <div class="container">
+
+    <a href="/" class="navbar-brand">
+      <img class="navbar-brand-logo" type="image/png" src="/theme/img/golly-favicon.png" alt="logo" />
+      Golly456
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- this is the non-brand portion of the nav bar -->
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+      <!-- begin list of navbar buttons -->
+      <ul class="navbar-nav">
+
+        <!--
+        pages order:
+        - home
+        - season*
+        - postseason*
+        - league
+        - rosters
+        - maps
+        -->
+
+        <!-- current games -->
+        <li class="nav-item">
+          <a class="nav-link" href="/index.html">Home</a>
+        </li>
+
+        <!-- seasons -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+              Season <span class="caret"></span>
+          </a>
+          <div id="navbar-season-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <!--
+            <a class="dropdown-item" href="/season.html">Season 1</a>
+            -->
+          </div>
+        </li>
+
+        <!-- postseasons -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+              Postseason <span class="caret"></span>
+          </a>
+          <div id="navbar-postseason-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <!--
+            <a class="dropdown-item" href="/postseason.html">Season 1</a>
+            -->
+          </div>
+        </li>
+
+        <!-- league -->
+        <li class="nav-item">
+          <a class="nav-link" href="/league.html">Standings</a>
+        </li>
+
+        <!-- rosters -->
+        <li class="nav-item">
+          <a class="nav-link" href="/player_viewer/">Rosters</a>
+        </li>
+
+        <!-- maps -->
+        <li class="nav-item">
+          <a class="nav-link" href="/maps.html">Maps</a>
+        </li>
+
+        <!-- simulator -->
+        <li class="nav-item">
+          <a class="nav-link" href="/simulator/index.html">Simulator</a>
+        </li>
+
+        <!-- rules -->
+        <li class="nav-item">
+          <a class="nav-link" href="/rules.html">Rules</a>
+        </li>
+
+        <!-- about -->
+        <li class="nav-item">
+          <a class="nav-link" href="/about.html">About</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container invisible" id="prodcheck-msg">
+  <p class="text-center text-danger">This is not a real Golly season! This is a test server. The real Golly season is at <a href="https://golly.life">golly.life</a>.</p>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>The Rules</h1>
+<h2>Section 1. Objective</h2>
+<ol>
+<li>Golly is a game played between two or more teams, each of a different color, on a rectangular grid with even
+   dimensions.</li>
+<li>Play shall proceed according to the rules of Conway's Game of Life, modified for multiple colors.</li>
+<li>A day shall consist of a set of games between two or more teams.</li>
+<li>A season shall consist of an odd number of days, following which a pool of winners shall be selected for a
+   post-season playoffs bracket. The winner of this bracket shall be declared the Golly Champion until the next
+   season begins.</li>
+<li>All golly games during a given season shall use a common grid size.</li>
+<li>The objective of both teams is to maintain the most number of alive cells on the M x N grid by the time the game
+   is declared over.</li>
+<li>Once play begins, it shall continue until the team with the most living cells on the board has maintained a
+   constant victory percentage (number of live cells of that team's color divided by number of live cells total)
+   at a constant value of greater than 50% for a specified number of generations.</li>
+</ol>
+<h2>Section 2. The Field</h2>
+<h3>Subsection 2.1. The Grid</h3>
+<ol>
+<li>The field shall be laid out as a rectangular M x N grid, where M and N are even integers.</li>
+</ol>
+<h3>Subsection 2.2. Patterns</h3>
+<ol>
+<li>Each matchup of teams shall have a pattern assigned for that matchup.</li>
+<li>The initial configuration of each team on the grid is determined by the pattern for that matchup.</li>
+<li>Each game in a given day shall be played using a unique pattern.</li>
+<li>A single set of patterns shall be used throughout a given season.</li>
+<li>The pattern for a matchup shall determine which shapes shall be placed on the grid. The exact arrangement of the
+   shapes for each game shall be unique and random.</li>
+<li>Each map shall, in general, assign an equal number of live squares to each team.</li>
+<li>The above rule may not be enforced for some patterns.</li>
+</ol>
+<h3>Subsection 2.3. Matchups</h3>
+<ol>
+<li>Each regular-season matchup between two teams shall be played twice using the same pattern. Each team shall switch initial
+   positions between games.</li>
+<li>The last game of the season shall be the sole exception to the above rule. Matchups shall take place on random
+   patterns with team assignments determined randomly.</li>
+</ol>
+<h3>Subsection 2.4. Quadrants</h3>
+<ol>
+<li>The grid shall be divided into four quadrants, which shall have unique names based on the pattern used for that
+   game. The quadrants shall serve no purpose in the game whatsoever.</li>
+</ol>
+<h2>Section 3. Equipment and Roster</h2>
+<ol>
+<li>Each team shall maintain a roster of players, with one player assigned to a unique grid square.</li>
+<li>Each cell on the grid is alive or dead. If a cell is alive, it may only be occupied by a single player.</li>
+<li>Each player is permitted to live in a single cell for the duration of their lifetime.</li>
+<li>Players shall not complain about how small their cell is.</li>
+<li>Players shall not be permitted to sublet or lease their cell.</li>
+<li>Players shall not be permitted to make any additions to their cell, including but not limited to: fences that fail to
+   meet inspection standards, antennas or satellite dishes, canvases or tarps on the exterior of the cell, pets
+   above the 200 kg household pet weight limit, or any other modifications to the cell that would affect its
+   appearance in any way that may interfere with the golly spectator experience.</li>
+<li>Players shall be responsible for repairing damages and removing all furniture from their cell prior to dying.</li>
+</ol>
+<h2>Section 4. Game Play</h2>
+<ol>
+<li>The game shall commence through the fourth dimension using a set of uniform, explicit time steps.</li>
+<li>Each square on the grid shall be in a state of being either alive or dead.</li>
+<li>Each live cell shall have a color associated with a team playing in the game.</li>
+<li>For each square that is populated:<ol>
+<li>Each cell with one or no neighbors shall die by solitude.</li>
+<li>Each cell with four or neighbors shall die by overpopulation.</li>
+<li>Each cell with 2-3 neighbors shall survive to the next generation.</li>
+</ol>
+</li>
+<li>For each square that is unpopulated:<ol>
+<li>Each cell with 3 neighbors shall become populated.</li>
+</ol>
+</li>
+<li>For a game of life with 2 colors, each new cell that is birthed shall take on the color of the majority of its
+   parent cells.</li>
+<li>For a game of life with 3 or more colors, each new cell that is birthed shall take on the color of the majority
+   of its parent cells, if there are two parents with the same color, or else a random choice from among the
+   parent cell colors.</li>
+</ol>
+<h2>Section 5. Ending the Game</h2>
+<ol>
+<li>Let X denote the maximum grid dimension (the larger of M and N on an M x N grid).</li>
+<li>Game play shall proceed uninterrupted for 2X generations, during which a running average of the victory
+   percentage (the number of live cells of the team with the most cells, divided by the number of live cells total)
+   over a window of 2X shall be tabulated.</li>
+<li>When the running average of the victory percentage has remained constant (and not 50%) to within a specified
+   tolerance for three consecutive generations, the winning team shall be declared the victor.</li>
+<li>The tolerance used to determine whether the running average has changed from the prior generation shall be
+   determined by the maximum grid dimension.</li>
+</ol>
+<h2>Section 6. Season</h2>
+<ol>
+<li>Each season shall consist of S games, where S is a positive, odd integer. In general, S = 49.</li>
+<li>Each matchup of teams shall result in two games, with each team swapping positions on the map between games,
+   excepting the last matchup of the season, which shall consist of a single game.</li>
+<li>Each team shall play their season's games against teams in the same division (intra-divisional gamess) or
+   against teams in the same league (inter-divisional games).</li>
+<li>Schedules for each season shall be determined randomly. Mechanisms may be implemented to ensure a fair schedule
+   for all teams.</li>
+</ol>
+<h2>Section 7. Postseason</h2>
+<ol>
+<li>At the end of each season, a playoffs bracket shall be determined.</li>
+<li>Each league shall declare one winner from each division, with each division winner earning a spot in the
+   playoffs bracket. The remaining spots in the playoffs bracketr shall go to the non-division winner teams with
+   the best win records in the league.</li>
+<li>In the case where two teams are tied in number of wins, the best record shall be assigned to the team with the
+   most cumulative live cells at the end of each game (the highest-scoring team). in the case of a tie in scores,
+   teams shall roll a 100-sided die. The team that rolls the highest number shall have the best record.</li>
+<li>Each postseason bracket shall consist of at least three rounds:<ol>
+<li>League Division Series Round: two division series per league, played amongst the top 4 teams in each league.<ol>
+<li>The number 1 and number 4 seeds shall play the first division series.</li>
+<li>The number 2 and number 3 seeds shall play the second division series.</li>
+<li>The series shall be best of 5.</li>
+</ol>
+</li>
+<li>League Championship Series Round: one championship series per league, played amongst the top 2 teams in each
+   league.<ol>
+<li>The series shall be best of 5.</li>
+</ol>
+</li>
+<li>World Series Round: one world series, played between the winners from each league.<ol>
+<li>The series shall be best of 7.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>The championship team shall be the team that wins 4 games in the World Series. They shall be declared the golly
+   champion and shall remain the golly champion until a new champion is named.</li>
+</ol>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="/theme/js/geturl.js"></script>
+<script type="text/javascript" src="/theme/js/prodcheck.js"></script>
+<script type="text/javascript" src="/theme/js/navbar.js"></script>
+<script type="text/javascript" src="/theme/js/jquery.min.js"></script>
+<script type="text/javascript" src="/theme/js/bootstrap.bundle.min.js"></script>
+
+<footer id="contentinfo" class="body">
+    <div class="text-center">
+    <p>Golly is a product of the <a href="https://ch4zm.github.io/metablaseball">Metablaseball Research Laboratory</a> at Hellmouth Community College</p>
+
+    <p>Golly Chief Architect: <a href="https://ch4zm.github.io">Ch4zm of Hellmouth</a></p>
+
+    <p>Golly Commissioner: Rubrix Helicopter</p>
+
+    <p>
+        <a rel="license" href="https://mit-license.org/">
+        <span class="fa-stack fa-2x">
+          <i class="fas fa-square fa-stack-2x" style="color: black;"></i>
+          <i class="fas fa-landmark fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+        <br />
+        Licensed under the <a rel="license" href="https://mit-license.org/">MIT License</a>.
+    </p>
+    </div>
+
+<!-- Default Statcounter code for Golly https://golly.life -->
+<script type="text/javascript">
+var sc_project=12429156;
+var sc_invisible=1;
+var sc_security="5f5d6061";
+var sc_https=1;
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript><div class="statcounter"><a title="Web Analytics Made Easy -
+StatCounter" href="https://statcounter.com/" target="_blank"><img
+class="statcounter" src="https://c.statcounter.com/12429156/0/5f5d6061/1/"
+alt="Web Analytics Made Easy - StatCounter"></a></div></noscript>
+<!-- End of Statcounter Code --></footer>
+</body>
+</html>

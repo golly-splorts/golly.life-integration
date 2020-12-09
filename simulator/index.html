@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+<html lang="en">
+<head>
+
+    <title>Golly456</title>
+    <meta charset="utf-8" />
+
+    <script>
+var baseApiUrl = '';
+var baseUIUrl  = '';
+    </script>
+
+    <!--
+    CSS styles
+    -->
+    <link href="/theme/css/slate.css"  rel="stylesheet" type="text/css">
+    <link href="/theme/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="/theme/css/fa.css"     rel="stylesheet" type="text/css"/>
+
+    <link rel="icon" type="image/png" href="/theme/img/golly-favicon.png">
+
+
+</head>
+<body id="index">
+
+<!-- Navigation -->
+<div class="navbar navbar-expand-md fixed-top navbar-dark bg-primary">
+
+  <div class="container">
+
+    <a href="/" class="navbar-brand">
+      <img class="navbar-brand-logo" type="image/png" src="/theme/img/golly-favicon.png" alt="logo" />
+      Golly456
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- this is the non-brand portion of the nav bar -->
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+
+      <!-- begin list of navbar buttons -->
+      <ul class="navbar-nav">
+
+        <!--
+        pages order:
+        - home
+        - season*
+        - postseason*
+        - league
+        - rosters
+        - maps
+        -->
+
+        <!-- current games -->
+        <li class="nav-item">
+          <a class="nav-link" href="/index.html">Home</a>
+        </li>
+
+        <!-- seasons -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+              Season <span class="caret"></span>
+          </a>
+          <div id="navbar-season-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <!--
+            <a class="dropdown-item" href="/season.html">Season 1</a>
+            -->
+          </div>
+        </li>
+
+        <!-- postseasons -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+              Postseason <span class="caret"></span>
+          </a>
+          <div id="navbar-postseason-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <!--
+            <a class="dropdown-item" href="/postseason.html">Season 1</a>
+            -->
+          </div>
+        </li>
+
+        <!-- league -->
+        <li class="nav-item">
+          <a class="nav-link" href="/league.html">Standings</a>
+        </li>
+
+        <!-- rosters -->
+        <li class="nav-item">
+          <a class="nav-link" href="/player_viewer/">Rosters</a>
+        </li>
+
+        <!-- maps -->
+        <li class="nav-item">
+          <a class="nav-link" href="/maps.html">Maps</a>
+        </li>
+
+        <!-- simulator -->
+        <li class="nav-item">
+          <a class="nav-link" href="/simulator/index.html">Simulator</a>
+        </li>
+
+        <!-- rules -->
+        <li class="nav-item">
+          <a class="nav-link" href="/rules.html">Rules</a>
+        </li>
+
+        <!-- about -->
+        <li class="nav-item">
+          <a class="nav-link" href="/about.html">About</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container invisible" id="prodcheck-msg">
+  <p class="text-center text-danger">This is not a real Golly season! This is a test server. The real Golly season is at <a href="https://golly.life">golly.life</a>.</p>
+</div>
+
+<div class="container" id="container-golly-header">
+  <div class="row">
+    <h1 class="golly-simulator-header" style="color: #eee;"><span id="golly-game-title">Binary Game of Life</span></h1>
+  </div>
+</div>
+
+
+<div class="container" id="container-golly-frontmatter">
+
+  <div class="row">
+
+    <p>To get started, click the <span class="badge badge-success">Run</span> button, or interact with the grid 
+    below to fill in cells. Binary life works the same as normal life, except
+    when new cells are born, they take on the color that the majority of their
+    parent cells have. Each team begins below with the acorn pattern. Refresh the
+    page to get the acorn pattern back.</p>
+    
+    <p>If you're not sure what all of this is about, check out the
+    Wikipedia article on <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life">Conway's Game of Life</a>.
+    </p>
+
+  </div>
+
+</div>
+
+
+<div class="container invisible" id="container-golly-controls">
+
+  <div class="row">
+  
+      <div class="col-md-4">
+  
+          <div class="card bg-primary mb-3">
+              <h4 class="card-header text-white">Scoreboard</h4>
+  
+              <ul class="list-group scoreboard-panel list-group-flush">
+  
+                  <li class="list-group-item scoreboard-panel" id="scoreboard-panel-livecells1">
+                      <table width="100%"><tr><td>
+                        <span class="badge badge-success" id="team1winner"></span>
+                        <span class="badge badge-danger" id="team1loser"></span>
+                        <span class="team1color team1name"></span>
+                      </td><td align="right">
+                        <b>
+                        <span class="team1color" id="livecells1"></span>
+                        </b>
+                      </td></tr></table>
+                  </li>
+  
+                  <li class="list-group-item scoreboard-panel" id="scoreboard-panel-livecells2">
+                      <table width="100%"><tr><td>
+                        <span class="badge badge-success" id="team2winner"></span>
+                        <span class="badge badge-danger" id="team2loser"></span>
+                        <span class="team2color team2name"></span>
+                      </td><td align="right">
+                        <b>
+                        <span class="team2color" id="livecells2"></span>
+                        </b>
+                      </td></tr></table>
+                  </li>
+  
+                  <li class="list-group-item scoreboard-panel" id="scoreboard-panel-generation">
+                      <table width="100%"><tr><td>
+                        Generation:
+                      </td><td align="right">
+                        <span id="generation"></span>
+                      </td></tr></table>
+                  </li>
+  
+                  <li class="list-group-item scoreboard-panel" id="scoreboard-panel-map">
+                      <table width="100%"><tr><td>
+                        Map:
+                      </td><td align="right">
+                        <span class="badge badge-brightmono" id="mapname-label"></span>
+                      </td></tr></table>
+                  </li>
+  
+              </ul>
+  
+          </div>
+  
+      </div>
+  
+      <div class="col-md-4">
+  
+          <div class="card bg-primary mb-3">
+              <h4 class="card-header text-white">Stats</h4>
+  
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                      <table width="100%"><tr><td>
+                        <span class="team1color team1name"></span> Territory:
+                      </td><td align="right" class="territory-score-column">
+                        <b>
+                        <span class="team1color" id="territory1"></span>
+                        </b>
+                      </td></tr></table>
+                  </li>
+                  <li class="list-group-item">
+                      <table width="100%"><tr><td>
+                        <span class="team2color team2name"></span> Territory:
+                      </td><td align="right" class="territory-score-column">
+                        <b>
+                        <span class="team2color" id="territory2"></span>
+                        </b>
+                      </td></tr></table>
+                  </li>
+  
+                  <li class="list-group-item">
+                      <table width="100%"><tr><td>
+                        Victory Percentage:
+                      </td><td align="right">
+                        <span id="victoryPct"></span>
+                      </td></tr></table>
+                  </li>
+  
+                  <li class="list-group-item">
+                      <table width="100%"><tr><td>
+                        Live Cells:
+                      </td><td align="right">
+                        <span id="livecells"></span>
+                      </td></tr></table>
+                  </li>
+  
+              </ul>
+  
+          </div>
+  
+      </div>
+      <div class="col-md-4">
+  
+          <div class="card bg-primary">
+              <h4 class="card-header text-white">Life Control</h4>
+  
+              <ul class="list-group list-group-flush">
+                  <li class="list-group-item">
+                      <div class="box controls">
+                          <form action="">
+                              <div class="btn-group" role="group" aria-label="Basic example">
+                                  <button type="button" id="buttonRun"   class="btn btn-lg btn-success btn-secondary">Run</button>
+                                  <button type="button" id="buttonStep"  class="btn btn-lg btn-default btn-secondary">Step</button>
+                                  <button type="button" id="buttonClear" class="btn btn-lg btn-default btn-secondary">Clear</button>
+                              </div>
+                          </form>
+                      </div>
+                  </li>
+                  <li class="list-group-item">
+                      <div class="box controls">
+                          <form action="">
+                              <div class="btn-group" role="group" aria-label="Basic example">
+                                  <button type="button" id="buttonGrid"   class="btn btn-lg btn-default btn-secondary">Grid</button>
+                                  <button type="button" id="buttonTrail"  class="btn btn-lg btn-default btn-secondary">Trail</button>
+                                  <button type="button" id="buttonColors" class="btn btn-lg btn-default btn-secondary">Colors</button>
+                              </div>
+                          </form>
+                      </div>
+                  </li>
+              </ul>
+  
+          </div>
+  
+      </div>
+  </div>
+
+</div>
+
+<div class="container invisible" id="container-canvas">
+
+  <div class="row">
+    <table border="0">
+      <tr>
+        <td>
+          <span class="badge badge-brightmono" id="zone2label"></span>
+        </td><td align="right">
+          <span class="badge badge-brightmono" id="zone1label"></span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <canvas id="canvas" width="900" height="450">
+          </canvas>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span class="badge badge-brightmono" id="zone3label"></span>
+        </td><td align="right">
+          <span class="badge badge-brightmono" id="zone4label"></span>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+</div>
+
+
+<div class="container invisible" id="container-loading">
+
+    <div class="row text-center notify-header">
+      <div class="col-md-12">
+        <h4 class="text-success">The site is currently loading...</h4>
+      </div>
+    </div>
+
+</div>
+
+
+<div class="container invisible" id="container-error">
+
+    <div class="row text-center notify-header">
+      <div class="col-md-12">
+        <h2 class="text-danger">The site has experienced a technical glitch.</h2>
+      </div>
+    </div>
+
+    <div class="row text-center notify-body">
+      <div class="col-md-12">
+        <p>
+        Ninjas have been dispatched to track down those responsible for the downtime
+        and bring them back to Hellmouth Community College to fix the site.
+        </p>
+      </div>
+    </div>
+
+</div>
+
+<noscript>
+  <div class="container" id="container-noscript">
+    <div class="row text-center landing-header">
+      <div class="col-md-12">
+        <h2 class="text-danger">You must have Javascript enabled to view this site.</h2>
+      </div>
+    </div>
+  </div>
+</noscript>
+
+
+<script type="text/javascript" src="/theme/js/geturl.js"></script>
+<script type="text/javascript" src="/theme/js/prodcheck.js"></script>
+<script type="text/javascript" src="/theme/js/navbar.js"></script>
+<script type="text/javascript" src="/theme/js/jquery.min.js"></script>
+<script type="text/javascript" src="/theme/js/bootstrap.bundle.min.js"></script>
+<script src="/theme/js/json-sans-eval.js"></script>
+<script src="binary_life.js"></script>
+
+<footer id="contentinfo" class="body">
+    <div class="text-center">
+    <p>Golly is a product of the <a href="https://ch4zm.github.io/metablaseball">Metablaseball Research Laboratory</a> at Hellmouth Community College</p>
+
+    <p>Golly Chief Architect: <a href="https://ch4zm.github.io">Ch4zm of Hellmouth</a></p>
+
+    <p>Golly Commissioner: Rubrix Helicopter</p>
+
+    <p>
+        <a rel="license" href="https://mit-license.org/">
+        <span class="fa-stack fa-2x">
+          <i class="fas fa-square fa-stack-2x" style="color: black;"></i>
+          <i class="fas fa-landmark fa-stack-1x fa-inverse"></i>
+        </span>
+        </a>
+        <br />
+        Licensed under the <a rel="license" href="https://mit-license.org/">MIT License</a>.
+    </p>
+    </div>
+
+<!-- Default Statcounter code for Golly https://golly.life -->
+<script type="text/javascript">
+var sc_project=12429156;
+var sc_invisible=1;
+var sc_security="5f5d6061";
+var sc_https=1;
+</script>
+<script type="text/javascript"
+src="https://www.statcounter.com/counter/counter.js" async></script>
+<noscript><div class="statcounter"><a title="Web Analytics Made Easy -
+StatCounter" href="https://statcounter.com/" target="_blank"><img
+class="statcounter" src="https://c.statcounter.com/12429156/0/5f5d6061/1/"
+alt="Web Analytics Made Easy - StatCounter"></a></div></noscript>
+<!-- End of Statcounter Code --></footer>
+</body>
+</html>

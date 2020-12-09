@@ -1,0 +1,211 @@
+.navbar-brand-logo {
+  width: 25px;
+  height: 25px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+h1, h2, h3 {
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+.scoreboard-panel {
+  font-size: 18px;
+}
+
+body {
+  /* navbar: */
+  padding-top: 100px;
+  /* no navbar: */
+  /*padding-top: 20px;*/
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.badge-brightmono {
+  background-color: #eee;
+  color: #333;
+}
+
+#canvascontainer {
+    padding-bottom: 20px;
+}
+
+a.padded-anchor {
+    position:absolute; top:-100px;
+}
+
+footer {
+    margin-top: 120px;
+}
+
+
+/****************************
+ * season, posteason, league
+ ****************************/
+
+.season-league-container {
+  margin-top: 0px;
+}
+
+.league-standings-league-header-text {
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
+
+.territory-score-column {
+  width: 100px;
+}
+
+.postseason-toc-text {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.season-day-anchor {
+  position: absolute;
+  top: -100px;
+}
+
+.season-day-header {
+    margin-top: 30px;
+}
+
+.season-number-button {
+    width: 40px;
+}
+
+h1.season-header {
+    margin-bottom: 60px;
+}
+
+h1.league-header {
+    margin-bottom: 60px;
+}
+
+div.season-toc {
+    margin-bottom: 60px;
+}
+
+div#postseason-champion-container {
+    margin-top: 120px;
+}
+
+div.postseason-series-header, div.league-standings-section {
+    margin-top: 60px;
+}
+
+/****************************
+ * game card styles
+ ****************************/
+
+.game-winner {
+    font-weight: 600;
+}
+
+.game-loser {
+    font-weight: 250;
+}
+
+div.card-body {
+    font-weight: 250;
+}
+
+/****************************
+ * landing page
+ ****************************/
+
+.flipdown-clock {
+    padding-bottom: 60px;
+}
+
+/* .rotor-group-heading, .rotor-group-heading::before { */
+.flipdown.flipdown__theme-dark .rotor-group-heading::before {
+    color: #eee;
+}
+
+div.invisible {
+    visibility: hidden;
+    display: none;
+}
+
+div.seed-table-header {
+    margin-top: 60px;
+}
+
+div.league-container, div#ws-league-container {
+    margin-top: 30px;
+}
+
+div.landing-header {
+    margin-bottom: 30px;
+}
+
+/*
+div.landing-header-below {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+*/
+
+h1.champion-header, h2.champion-header, h3.champion-header {
+    margin-bottom: 60px;
+}
+
+/*
+div.seed-table {
+    margin-top: 30px;
+}
+*/
+
+.seed-number {
+    font-size: 110%;
+}
+
+div.vspace40 {
+    margin-top: 40px;
+}
+
+/*****************************
+ * player viewer
+ *****************************/
+
+#playerteamcontrols {
+    padding-bottom: 20px;
+}
+
+.player-viewer-link {
+  color: steelblue;
+}
+
+/****************************
+ * standings page
+ ****************************/
+
+span.standings-record {
+    font-size: 110%;
+}
+
+/****************************
+ * maps page
+ * **************************/
+
+.map-card {
+  max-width: 20rem;
+}
+
+.map-card-simulate {
+  margin-bottom: 20px;
+}
+
+/************************************
+ * simulator page
+ ************************************/
+
+.golly-simulator-header {
+  color: #eee;
+  margin-bottom: 30px;
+}

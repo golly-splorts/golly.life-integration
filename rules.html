@@ -21,6 +21,12 @@ var baseUIUrl  = '';
 
     <link rel="icon" type="image/png" href="/theme/img/golly-favicon.png">
 
+    <!--
+        Versions:
+        golly-pelican: 0.0.1
+        golly-pelican-theme: 3.0-dev
+    -->
+
 
 </head>
 <body id="index">
@@ -89,9 +95,34 @@ var baseUIUrl  = '';
           <a class="nav-link" href="/league.html">Standings</a>
         </li>
 
-        <!-- rosters -->
+        <!-- roster list -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+              Rosters<span class="caret"></span>
+          </a>
+          <div id="navbar-postseason-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <a class="dropdown-item" href="/aa.html">Alewife Arsonists</a>
+            <a class="dropdown-item" href="/atl.html">Atlanta Glitter Sharks</a>
+            <a class="dropdown-item" href="/btx.html">Baltimore Texas</a>
+            <a class="dropdown-item" href="/deco.html">Delaware Corporate Shells</a>
+            <a class="dropdown-item" href="/det.html">Detroit Grape Chews</a>
+            <a class="dropdown-item" href="/ea.html">Elko Astronauts</a>
+            <a class="dropdown-item" href="/fwpt.html">Ft. Worth Piano Tuners</a>
+            <a class="dropdown-item" href="/osha.html">Jersey OSHA Violations</a>
+            <a class="dropdown-item" href="/lbfb.html">Long Beach Flightless Birds</a>
+            <a class="dropdown-item" href="/milf.html">Milwaukee Flamingos</a>
+            <a class="dropdown-item" href="/orl.html">Orlando Business Majors</a>
+            <a class="dropdown-item" href="/sac.html">Sacramento Boot Lickers</a>
+            <a class="dropdown-item" href="/sdba.html">San Diego Balloon Animals</a>
+            <a class="dropdown-item" href="/sfbs.html">San Francisco Boat Shoes</a>
+            <a class="dropdown-item" href="/ss.html">Seattle Sneakers</a>
+            <a class="dropdown-item" href="/tb.html">Tucson Butchers</a>
+          </div>
+        </li>
+
+        <!-- player viewer -->
         <li class="nav-item">
-          <a class="nav-link" href="/player_viewer/">Rosters</a>
+          <a class="nav-link" href="/player_viewer/">Players</a>
         </li>
 
         <!-- maps -->
@@ -219,9 +250,11 @@ var baseUIUrl  = '';
 <h2>Section 6. Season</h2>
 <ol>
 <li>Each season shall consist of S games, where S is a positive, odd integer. In general, S = 49.</li>
-<li>Each matchup of teams shall result in two games, with each team swapping positions on the map between games,
-   excepting the last matchup of the season, which shall consist of a single game.</li>
-<li>Each team shall play their season's games against teams in the same division (intra-divisional gamess) or
+<li><s>Each matchup of teams shall result in two games, with each team swapping positions on the map between games,
+   excepting the last matchup of the season, which shall consist of a single game.</s> (Amended in Season 3:
+   "Each matchup of teams shall result in two games played on two random maps, excepting the last matchup of the
+   season, which shall consist of a single game.")</li>
+<li>Each team shall play their season's games against teams in the same division (intra-divisional games) or
    against teams in the same league (inter-divisional games).</li>
 <li>Schedules for each season shall be determined randomly. Mechanisms may be implemented to ensure a fair schedule
    for all teams.</li>
@@ -230,7 +263,7 @@ var baseUIUrl  = '';
 <ol>
 <li>At the end of each season, a playoffs bracket shall be determined.</li>
 <li>Each league shall declare one winner from each division, with each division winner earning a spot in the
-   playoffs bracket. The remaining spots in the playoffs bracketr shall go to the non-division winner teams with
+   playoffs bracket. The remaining spots in the playoffs bracket shall go to the non-division winner teams with
    the best win records in the league.</li>
 <li>In the case where two teams are tied in number of wins, the best record shall be assigned to the team with the
    most cumulative live cells at the end of each game (the highest-scoring team). in the case of a tie in scores,

@@ -498,7 +498,7 @@
         // Draw cells
         for (i = 0 ; i < PlayerViewer.columns; i++) {
           for (j = 0 ; j < PlayerViewer.rows; j++) {
-            if ((i==PlayerViewer.activeRow) && (j==PlayerViewer.activeCol)) {
+            if ((j==PlayerViewer.activeRow) && (i==PlayerViewer.activeCol)) {
               this.drawCell(i, j, true);
             } else {
               this.drawCell(i, j, false);

@@ -2,6 +2,10 @@
 
   mapDescriptions = {
     'random' : 'A completely random map layout, territory split 50/50.',
+    'randompartition' : 'Randomly partitioned random maps, with teams placed in alternating partitions.',
+    'quadjustyna' : 'Four justyna metheuselas, randomly oriented.',
+    'spaceshipcluster' : 'Glider clouds all aiming for the origin.',
+    'spaceshipcrash' : 'Glider clouds aimed at quadruple burloaferimeters.',
     'twoacorn': 'Two fast-growing acorn metheuselas placed in the top and bottom halves of the grid.',
     'timebomb': 'Three quadruple burloaferimeters holding defensive positions against a timebomb metheusela.',
     'fourrabbits': 'Four fast-growing rabbits, one in each quadrant.',

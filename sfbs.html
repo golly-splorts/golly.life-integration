@@ -23,8 +23,8 @@ var baseUIUrl  = '';
 
     <!--
         Versions:
-        golly-pelican: 0.0.1
-        golly-pelican-theme: 3.0-dev
+        golly-pelican: 4.0.0
+        golly-pelican-theme: 4.1
     -->
 
 
@@ -61,11 +61,6 @@ var baseUIUrl  = '';
         - maps
         -->
 
-        <!-- current games -->
-        <li class="nav-item">
-          <a class="nav-link" href="/index.html">Home</a>
-        </li>
-
         <!-- seasons -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
@@ -95,12 +90,16 @@ var baseUIUrl  = '';
           <a class="nav-link" href="/league.html">Standings</a>
         </li>
 
-        <!-- roster list -->
+        <!-- explore -->
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
-              Rosters<span class="caret"></span>
+              Explore<span class="caret"></span>
           </a>
-          <div id="navbar-postseason-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+          <div id="navbar-explore-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <a class="dropdown-item" href="/simulator/index.html">Simulator</a>
+            <a class="dropdown-item" href="/maps.html">Maps</a>
+            <a class="dropdown-item" href="/player_viewer/">Player Viewer</a>
+            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/aa.html">Alewife Arsonists</a>
             <a class="dropdown-item" href="/atl.html">Atlanta Glitter Sharks</a>
             <a class="dropdown-item" href="/btx.html">Baltimore Texas</a>
@@ -120,40 +119,26 @@ var baseUIUrl  = '';
           </div>
         </li>
 
-        <!-- player viewer -->
-        <li class="nav-item">
-          <a class="nav-link" href="/player_viewer/">Players</a>
-        </li>
-
         <!-- maps -->
         <li class="nav-item">
           <a class="nav-link" href="/maps.html">Maps</a>
         </li>
 
-        <!-- simulator -->
-        <li class="nav-item">
-          <a class="nav-link" href="/simulator/index.html">Simulator</a>
-        </li>
-
-        <!-- rules -->
-        <li class="nav-item">
-          <a class="nav-link" href="/rules.html">Rules</a>
-        </li>
-
         <!-- about -->
-        <li class="nav-item">
-          <a class="nav-link" href="/about.html">About</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+              About<span class="caret"></span>
+          </a>
+          <div id="navbar-about-dropdown-menu" class="dropdown-menu" aria-labelledby="themes">
+            <a class="dropdown-item" href="/about.html">About Golly</a>
+            <a class="dropdown-item" href="/rules.html">Rules</a>
+          </div>
         </li>
 
       </ul>
     </div>
   </div>
 </div>
-<!--
-<div class="container invisible" id="prodcheck-msg">
-  <p class="text-center text-danger">This is not a real Golly season! This is a test server. The real Golly season is at <a href="https://golly.life">golly.life</a>.</p>
-</div>
--->
 <div class="container">
   <div class="row">
     <div class="col-md-12">
@@ -72184,6 +72169,8 @@ var baseUIUrl  = '';
     <div class="text-center">
     <p>Golly is a product of the <a href="https://ch4zm.github.io/metablaseball">Metablaseball Research Laboratory</a> at Hellmouth Community College</p>
 
+    <p>Golly Twitter: <a href="https://twitter.com/gollysplorts">Golly Splorts</a></p>
+
     <p>Golly Chief Architect: <a href="https://ch4zm.github.io">Ch4zm of Hellmouth</a></p>
 
     <p>Golly Commissioner: Rubrix Helicopter</p>
@@ -72195,9 +72182,12 @@ var baseUIUrl  = '';
           <i class="fas fa-landmark fa-stack-1x fa-inverse"></i>
         </span>
         </a>
-        <br />
+    </p>
+    <p>
         Licensed under the <a rel="license" href="https://mit-license.org/">MIT License</a>.
     </p>
+    <p>
+        <a href="https://github.com/golly-splorts/golly-pelican/blob/main/ATTRIBUTION">Attribution</a>
     </div>
 
 <!-- Default Statcounter code for Golly https://golly.life -->

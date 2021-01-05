@@ -76,7 +76,7 @@
             var mode = modeApiResult.mode;
             if (mode < 0) {
               this.eror(-1);
-            } else if (mode < 10) {
+            } else if (mode < 10 || this.currentDay==0) {
               this.seasonWaitingMessage()
             } else {
               this.processSeasonData(this.season);

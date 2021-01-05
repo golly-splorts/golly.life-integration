@@ -185,7 +185,7 @@ div.vspace40 {
     padding-bottom: 20px;
 }
 
-.player-viewer-link {
+.player-viewer-link, .player-viewer-team-link {
   color: steelblue;
 }
 

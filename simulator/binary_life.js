@@ -147,8 +147,8 @@
       livecells1 : null,
       livecells2 : null,
       victory: null,
-      territory1: null,
-      territory2: null,
+      // territory1: null,
+      // territory2: null,
       team1color: null,
       team1name: null,
       team2color: null,
@@ -318,11 +318,12 @@
           // Set the game title
           var gameTitleElem = document.getElementById('golly-game-title');
           if (gameApiResult.isPostseason == true) {
-            gameTitleElem.innerHTML = "Golly: " + gameApiResult.description;
+            var sp1 = gameApiResult.season + 1;
+            gameTitleElem.innerHTML = "Golly: " + gameApiResult.description + " <small>- S" + sp1 + "</small>";
           } else {
             var sp1 = gameApiResult.season + 1;
             var dp1 = gameApiResult.day + 1;
-            var descr = "Golly: Season " + sp1 + ' Day ' + dp1;
+            var descr = "Golly: Season " + sp1 + " Day " + dp1;
             gameTitleElem.innerHTML = descr;
           }
 
@@ -340,6 +341,7 @@
 
           this.setTeamNames();
           this.setColors();
+          this.drawIcons();
 
           // If the game is season 0-2,
           // use legacy neighbor color rules (to preserve outcome)
@@ -358,6 +360,7 @@
 
           this.updateMapLabels();
           this.updateTeamNamesColors();
+          this.updateTeamRecords();
           this.updateGameInitCounts();
           this.updateGameControls();
           this.updateWinLossLabels();
@@ -372,7 +375,7 @@
 
       } else if (this.patternName != null) {
 
-        // Load a game from the /map API endpoint
+        // Load a random map from the /map API endpoint
         let url = this.baseApiUrl + '/map/' + this.patternName;
         fetch(url)
         .then(res => res.json())
@@ -401,6 +404,7 @@
 
           this.updateMapLabels();
           this.updateTeamNamesColors();
+          this.updateTeamRecords();
           this.updateGameInitCounts();
           this.updateGameControls();
 
@@ -462,6 +466,7 @@
 
         this.updateMapLabels();
         this.updateTeamNamesColors();
+        this.updateTeamRecords();
         this.updateGameInitCounts();
         this.updateGameControls();
 
@@ -579,8 +584,87 @@
         }
         this.colors.current = colorpal - 1;
         this.colors.alive = this.colors.schemes[this.colors.current].alive;
-
       }
+    },
+
+    /**
+     * Draw the icons for each team.
+     * Get data from the /teams endpoint first.
+     * Team abbreviation.
+     * This is only called when in gameMode.
+     */
+    drawIcons : function() {
+
+      // Get team abbreviations from /teams endpoint
+      // (abbreviations are used to get svg filename)
+      let url = this.baseApiUrl + '/teams/' + this.gameApiResult.season;
+      fetch(url)
+      .then(res => res.json())
+      .then((teamApiResult) => {
+
+        this.teamApiResult = teamApiResult;
+
+        // Assemble team1/2 abbreviations
+        var teamAbbrs = ['', ''];
+        var k;
+        for (k = 0; k < teamApiResult.length; k++) {
+          if (teamApiResult[k].teamName == this.gameApiResult.team1Name) {
+            teamAbbrs[0] = teamApiResult[k].teamAbbr.toLowerCase();
+          }
+          if (teamApiResult[k].teamName == this.gameApiResult.team2Name) {
+            teamAbbrs[1] = teamApiResult[k].teamAbbr.toLowerCase();
+          }
+        }
+
+        // Assemble team1/2 colors/names
+        var teamColors = [this.gameApiResult.team1Color, this.gameApiResult.team2Color];
+        var teamNames = [this.gameApiResult.team1Name, this.gameApiResult.team2Name];
+
+        // For each team, make a new <object> tag
+        // that gets data from an svg file.
+        var iconSize = "25";
+        var i;
+        for (i = 0; i < 2; i++) {
+          var ip1 = i + 1;
+          var containerId = "team" + ip1 + "-icon-container";
+          var iconId = "team" + ip1 + "-icon";
+
+          var container = document.getElementById(containerId);
+          var svg = document.createElement("object");
+          svg.setAttribute('type', 'image/svg+xml');
+          svg.setAttribute('data', '../img/' + teamAbbrs[i].toLowerCase() + '.svg');
+          svg.setAttribute('height', iconSize);
+          svg.setAttribute('width', iconSize);
+          svg.setAttribute('id', iconId);
+          svg.classList.add('icon');
+          svg.classList.add('team-icon');
+          svg.classList.add('invisible');
+          container.appendChild(svg);
+
+          // Wait a little bit for the data to load,
+          // then modify the color and make it visible
+          var paint = function(color, elemId) {
+            var mysvg = $('#' + elemId).getSVG();
+            var child = mysvg.find("g path:first-child()");
+            if (child.length > 0) {
+              child.attr('fill', color);
+              $('#' + elemId).removeClass('invisible');
+            }
+          }
+          // This fails pretty often, so try a few times.
+          setTimeout(paint, 100,  teamColors[i], iconId);
+          setTimeout(paint, 250,  teamColors[i], iconId);
+          setTimeout(paint, 500,  teamColors[i], iconId);
+          setTimeout(paint, 1000, teamColors[i], iconId);
+          setTimeout(paint, 1500, teamColors[i], iconId);
+        }
+
+      })
+      .catch();
+      // Note: intentionally do nothing.
+      // If we can't figure out how to draw
+      // the team icon, just leave it be.
+
     },
 
     /**
@@ -786,8 +870,8 @@
       this.element.livecells1.innerHTML = liveCounts.liveCells1;
       this.element.livecells2.innerHTML = liveCounts.liveCells2;
       this.element.victory.innerHTML    = liveCounts.victoryPct.toFixed(1) + "%";
-      this.element.territory1.innerHTML = liveCounts.territory1.toFixed(2) + "%";
-      this.element.territory2.innerHTML = liveCounts.territory2.toFixed(2) + "%";
+      // this.element.territory1.innerHTML = liveCounts.territory1.toFixed(2) + "%";
+      // this.element.territory2.innerHTML = liveCounts.territory2.toFixed(2) + "%";
     },
 
     /**
@@ -803,6 +887,32 @@
       if (this.autoplay) { // Next Flow
         this.autoplay = false;
         this.handlers.buttons.run();
+      }
+    },
+
+    updateTeamRecords : function() {
+      if (this.gameMode === true) {
+        var game = this.gameApiResult;
+        if (game.hasOwnProperty('team1WinLoss') && game.hasOwnProperty('team2WinLoss')) {
+          // Season: win-loss record to date
+          var wlstr1 = game.team1WinLoss[0] + "-" + game.team1WinLoss[1];
+          var wlstr2 = game.team2WinLoss[0] + "-" + game.team2WinLoss[1];
+          this.element.team1wlrec.innerHTML = wlstr1;
+          this.element.team2wlrec.innerHTML = wlstr2;
+        } else if (game.hasOwnProperty('team1SeriesWinLoss') && game.hasOwnProperty('team2SeriesWinLoss')) {
+          // Postseason: win-loss record in current series
+          var swlstr1 = game.team1SeriesWinLoss[0] + "-" + game.team1SeriesWinLoss[1];
+          var swlstr2 = game.team2SeriesWinLoss[0] + "-" + game.team2SeriesWinLoss[1];
+          this.element.team1wlrec.innerHTML = swlstr1;
+          this.element.team2wlrec.innerHTML = swlstr2;
+        } else {
+          // Remove the two rows containing the team records (no info)
+          this.element.team1wlrecCont.remove();
+          this.element.team2wlrecCont.remove();
+        }
+      } else {
+        this.element.team1wlrecCont.remove();
+        this.element.team2wlrecCont.remove();
       }
     },
 
@@ -841,12 +951,18 @@
       this.element.livecells1 = document.getElementById('livecells1');
       this.element.livecells2 = document.getElementById('livecells2');
 
+      this.element.team1wlrec = document.getElementById("team1record");
+      this.element.team2wlrec = document.getElementById("team2record");
+      this.element.team1wlrecCont = document.getElementById("team1record-container");
+      this.element.team2wlrecCont = document.getElementById("team2record-container");
+
       this.element.victory    = document.getElementById('victoryPct');
-      this.element.territory1 = document.getElementById('territory1');
-      this.element.territory2 = document.getElementById('territory2');
+      // this.element.territory1 = document.getElementById('territory1');
+      // this.element.territory2 = document.getElementById('territory2');
 
       this.element.team1color = document.getElementsByClassName("team1color");
       this.element.team1name  = document.getElementsByClassName("team1name");
+
       this.element.team2color = document.getElementsByClassName("team2color");
       this.element.team2name  = document.getElementsByClassName("team2name");
 
@@ -1442,18 +1558,18 @@
 
         var totalArea = GOL.columns * GOL.rows;
 
-        var territory1 = liveCells1/(1.0*totalArea);
-        territory1 = territory1 * 100;
-        var territory2 = liveCells2/(1.0*totalArea);
-        territory2 = territory2 * 100;
+        // var territory1 = liveCells1/(1.0*totalArea);
+        // territory1 = territory1 * 100;
+        // var territory2 = liveCells2/(1.0*totalArea);
+        // territory2 = territory2 * 100;
 
         return {
           liveCells: liveCells,
           liveCells1 : liveCells1,
           liveCells2 : liveCells2,
           victoryPct : victoryPct,
-          territory1 : territory1,
-          territory2 : territory2,
+          // territory1 : territory1,
+          // territory2 : territory2,
         };
       },
 

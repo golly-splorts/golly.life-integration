@@ -339,8 +339,9 @@
      */
     updateChampions : function() {
       var champs = document.getElementById('champion-team');
+      var champsIcon = document.getElementById('champion-icon');
 
-      // get current day/season info from API /today
+      // get current champion from API
       let url = this.baseApiUrl + '/champion';
       fetch(url)
       .then(res => res.json())
@@ -349,6 +350,42 @@
         if (apiResult.hasOwnProperty('champion')) {
           champs.innerHTML = apiResult.champion;
           champs.style.color = apiResult.color;
+
+          if (apiResult.hasOwnProperty('abbr')) {
+
+            var iconSize = "200";
+            var iconId = "champion-icon";
+            var icontainerId = "champion-icon-container";
+            var icontainer = document.getElementById(icontainerId);
+            var svg = document.createElement("object");
+            svg.setAttribute('type', 'image/svg+xml');
+            svg.setAttribute('data', '../img/' + apiResult.abbr.toLowerCase() + '.svg');
+            svg.setAttribute('height', iconSize);
+            svg.setAttribute('width', iconSize);
+            svg.setAttribute('id', iconId);
+            svg.classList.add('icon');
+            svg.classList.add('team-icon');
+            svg.classList.add('invisible');
+            icontainer.appendChild(svg);
+
+            // Wait a little bit for the data to load,
+            // then modify the color and make it visible
+            var paint = function(color, elemId) {
+              var mysvg = $('#' + elemId).getSVG();
+              var child = mysvg.find("g path:first-child()");
+              if (child.length > 0) {
+                child.attr('fill', color);
+                $('#' + elemId).removeClass('invisible');
+              }
+            }
+            // This fails pretty often, so try a few times.
+            setTimeout(paint, 100,  apiResult.color, iconId);
+            setTimeout(paint, 250,  apiResult.color, iconId);
+            setTimeout(paint, 500,  apiResult.color, iconId);
+            setTimeout(paint, 1000, apiResult.color, iconId);
+            setTimeout(paint, 1500, apiResult.color, iconId);
+          }
+
         } else {
           this.error(-1);
         }
@@ -357,7 +394,7 @@
       .catch(err => {
         console.log(err);
         this.error(-1);
-      });
+      }); // end /champion api call
 
     },
 

@@ -14,6 +14,16 @@ th {
   text-align: center;
 }
 
+.league-icon-container {
+  margin-right: 15px;
+}
+
+.team-icon {
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: -8px;
+}
+
 .scoreboard-panel {
   font-size: 18px;
 }
@@ -64,10 +74,6 @@ footer {
   margin-bottom: 30px;
 }
 
-.territory-score-column {
-  width: 100px;
-}
-
 .postseason-toc-text {
   margin-left: 8px;
   margin-right: 8px;
@@ -99,7 +105,7 @@ div.season-toc {
 }
 
 div#postseason-champion-container {
-    margin-top: 120px;
+    margin-top: 30px;
 }
 
 div.postseason-series-header, div.league-standings-section {
@@ -160,7 +166,7 @@ div.landing-header-below {
 */
 
 h1.champion-header, h2.champion-header, h3.champion-header {
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 /*
@@ -216,4 +222,16 @@ span.standings-record {
 .golly-simulator-header {
   color: #eee;
   margin-bottom: 30px;
+}
+
+span.simulator-record {
+    font-size: 110%;
+}
+
+.territory-score-column {
+  width: 100px;
+}
+
+.simulator-wl-column {
+  width: 100px;
 }

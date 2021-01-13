@@ -134,7 +134,22 @@
 
             var iS;
             for (iS = 0; iS < teamStandingsItems.length; iS++) {
+
               var teamStandings = teamStandingsItems[iS];
+
+              /////////////////////////////////
+              // Add an entry for each team 
+              // to the league standings page
+              //
+              // <li>
+              //     <span>
+              //         (icon)
+              //         (team name)
+              //     </span>
+              //     <span>
+              //          (team win/loss record)
+              //     </span>
+              // </li>
 
               // Add an li element for this team
               var liElem = document.createElement('li');
@@ -142,20 +157,81 @@
               liElem.classList.add('d-flex');
               liElem.classList.add('justify-content-between');
               liElem.classList.add('align-items-center');
-              liElem.classList.add('team-color');
-              liElem.innerHTML = teamStandings.teamName;
 
-              // Add win loss span to the document
-              var spanElem = document.createElement('span');
-              spanElem.classList.add('standings-record');
+              // ----------------
+              // Left side: name + icon in a single span
+              var nameiconId = 'league-name-icon-holder';
+              var nameicon = document.createElement('span');
+              nameicon.setAttribute('id', nameiconId);
+
+              // Icon first (far left)
+              if (teamStandings.hasOwnProperty('teamAbbr')) {
+                var icontainerId = "team-icon-container-" + teamStandings.teamAbbr.toLowerCase();
+                var container = document.createElement('span');
+                container.setAttribute('id', icontainerId);
+                container.classList.add('icon-container');
+                container.classList.add('league-icon-container');
+                container.classList.add('text-center');
+
+                var iconSize = "25";
+                var iconId = "team-icon-" + teamStandings.teamAbbr.toLowerCase();
+                var svg = document.createElement('object');
+                svg.setAttribute('type', 'image/svg+xml');
+                svg.setAttribute('data', '../img/' + teamStandings.teamAbbr.toLowerCase() + '.svg');
+                svg.setAttribute('height', iconSize);
+                svg.setAttribute('width', iconSize);
+                svg.setAttribute('id', iconId);
+                svg.classList.add('icon');
+                svg.classList.add('team-icon');
+                svg.classList.add('invisible');
+
+                // Attach icon to container, and container to nameicon
+                container.appendChild(svg);
+                nameicon.appendChild(container);
+
+                // Wait a little bit for the data to load,
+                // then modify the color and make it visible
+                var paint = function(color, elemId) {
+                  var mysvg = $('#' + elemId).getSVG();
+                  var child = mysvg.find("g path:first-child()");
+                  if (child.length > 0) {
+                    child.attr('fill', color);
+                    $('#' + elemId).removeClass('invisible');
+                  }
+                }
+                // This fails pretty often, so try a few times.
+                setTimeout(paint, 100,  teamStandings.teamColor, iconId);
+                setTimeout(paint, 250,  teamStandings.teamColor, iconId);
+                setTimeout(paint, 500,  teamStandings.teamColor, iconId);
+                setTimeout(paint, 1000, teamStandings.teamColor, iconId);
+                setTimeout(paint, 1500, teamStandings.teamColor, iconId);
+              }
+
+              // Name next
+              var nameSpanElem = document.createElement('span');
+              nameSpanElem.innerHTML = teamStandings.teamName;
+              nameSpanElem.style.color = teamStandings.teamColor;
+              nameicon.appendChild(nameSpanElem);
+
+              // Attach to left side
+              liElem.appendChild(nameicon);
+
+              // ----------------
+              // Right side: win-loss record
+              var wlElem = document.createElement('span');
+              wlElem.classList.add('standings-record');
               var winLossStr = teamStandings.teamWinLoss[0] + "-" + teamStandings.teamWinLoss[1];
-              spanElem.innerHTML = winLossStr;
+              wlElem.innerHTML = winLossStr;
 
-              // Set color of li element
-              liElem.style.color = teamStandings.teamColor;
+              // Attach to right side
+              liElem.appendChild(wlElem);
 
-              liElem.appendChild(spanElem);
               ulElem.appendChild(liElem);
+
+
+
+
+
 
             } // finish for each team in the standings
 

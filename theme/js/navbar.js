@@ -6,6 +6,10 @@
     baseUIUrl : getBaseUIUrl(),
 
     init : function() {
+
+      ///////////////////////////
+      // Navbar
+
       // get current day/season info from API /today
       var seasonsUrl = this.baseApiUrl + '/seasons';
       fetch(seasonsUrl)
@@ -18,12 +22,14 @@
         for (var season0 in seasonsApiResult) {
           var sp1 = parseInt(season0) + 1;
 
+          // Populate season drop-down
           var sdropElem = document.createElement('a');
           sdropElem.classList.add('dropdown-item');
           sdropElem.setAttribute('href', baseUIUrl + '/season.html?season=' + season0);
           sdropElem.innerHTML = 'Season ' + sp1;
           navbarSeasonDropdown.appendChild(sdropElem);
 
+          // Populate postseason drop-down
           var pdropElem = document.createElement('a');
           pdropElem.classList.add('dropdown-item');
           pdropElem.setAttribute('href', baseUIUrl + '/postseason.html?season=' + season0);

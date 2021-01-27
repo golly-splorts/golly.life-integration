@@ -1,3 +1,8 @@
+function getUrlPath() {
+  var pathname = window.location.pathname;
+  return pathname;
+}
+
 function getBaseUIUrl() {
   if (baseUIUrl==='') {
     var protocol = window.location.protocol;

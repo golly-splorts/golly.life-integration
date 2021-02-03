@@ -8,14 +8,22 @@
       ///////////////////////////
       // Customized JS for pages
 
-      // If we are on the articles.html page, make the tables look nice
-      if (getUrlPath().endsWith("articles.html")) {
+      //// If we are on the articles.html page, make the tables look nice
+      //if (getUrlPath().endsWith("articles.html")) {
+
+      if (getUrlPath().includes("/article")) {
+
         // Make the tables fancy
         var tableTags = document.getElementsByTagName('table');
         var i;
         for (i = 0; i < tableTags.length; i++) {
           tableTags[i].classList.add('table');
         }
+
+        // center the headers and p tags
+        var container = document.getElementById('article-div-container');
+        container.classList.add('text-center');
+
       }
 
     },

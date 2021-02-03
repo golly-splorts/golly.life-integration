@@ -60,6 +60,14 @@ footer {
     margin-top: 120px;
 }
 
+.table thead th, .table td {
+    border-top: 1px solid #666;
+}
+
+.table th {
+    border-top: 2px solid #111;
+}
+
 
 /****************************
  * season, posteason, league

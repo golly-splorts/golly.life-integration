@@ -725,7 +725,7 @@
           } else if(mode==23) {
             // begin if mode 23
 
-            // World Series has no league, single-column
+            // Hellmouth Cup has no league, single-column
             var leagueContainerElem = document.getElementById('ws-league-waiting-container');
             var g;
             for (g = 0; g < currGamesApiResult.length; g++) {

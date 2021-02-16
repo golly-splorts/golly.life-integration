@@ -23,8 +23,8 @@ var baseUIUrl  = 'https://integration.golly456.life';
 
     <!--
         Versions:
-        golly-pelican: 9.1.0
-        golly-pelican-theme: 10.0.0dev0
+        golly-pelican: 11.0.0
+        golly-pelican-theme: 11.0.0
     -->
 
 
@@ -144,7 +144,10 @@ var baseUIUrl  = 'https://integration.golly456.life';
 <template id="map-card-template">
     <div class="col-md-3 map-card-container">
       <div class="card text-white bg-primary mb-3 map-card">
-        <div class="card-header map-card-header"><span class="map-card-map-name"></span></div>
+        <div class="card-header map-card-header"><span class="map-card-map-name"></span><br />
+        <span class="invisible badge badge-info map-badge-season"></span>
+        <span class="invisible badge badge-warning map-badge-new">NEW</span>
+        </div>
         <div class="card-body">
           <img class="map-card-image" width="100%" src="" />
           <p class="card-text map-card-description-text"><span class="map-card-description"></span></p>

@@ -219,6 +219,18 @@ span.standings-record {
   max-width: 20rem;
 }
 
+.map-card-header {
+    font-size: 125%;
+}
+
+.map-card-header .badge-info {
+    background-color: #2b74d4;
+}
+
+.map-card-header .badge-warning {
+    background-color: #d42b50;
+}
+
 .map-card-simulate {
   margin-bottom: 20px;
 }

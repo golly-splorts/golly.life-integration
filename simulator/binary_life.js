@@ -110,7 +110,7 @@
 
     // Grid style
     grid : {
-      current : 1,
+      current : 0,
       mapOverlay : false,
 
       schemes : [
@@ -279,10 +279,9 @@
       // Initial grid config
       grid = parseInt(this.helpers.getUrlParameter('grid'), 10);
       if (isNaN(grid) || grid < 1 || grid > this.grid.schemes.length) {
-        this.grid.current = 1;
-      } else {
-        this.grid.current = 1;
+        grid = 1;
       }
+      this.grid.current = grid - 1;
 
       // Add ?autoplay=1 to the end of the URL to enable autoplay
       this.autoplay = this.helpers.getUrlParameter('autoplay') === '1' ? true : this.autoplay;

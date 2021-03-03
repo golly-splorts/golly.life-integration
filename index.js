@@ -650,7 +650,7 @@
 
                   var t1tags, t2tags, t, elem;
 
-                  elem = document.getElementById(game.id);
+                  elem = document.getElementById(game.gameid);
 
                   if (game.hasOwnProperty('team1Name') && game.hasOwnProperty('team2Name')) {
 

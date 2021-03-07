@@ -442,6 +442,8 @@
           // Add the game id to the template game id
           if (game.hasOwnProperty('gameid')) {
             cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
+          } else {
+            console.log("Malformed season game data");
           }
 
           // Add the template game div to the page
@@ -915,8 +917,10 @@
                   var cloneFragment = postTemplate.content.cloneNode(true);
 
                   // Add the game id to the template game id
-                  if (game.hasOwnProperty('id')) {
+                  if (game.hasOwnProperty('gameid')) {
                     cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
+                  } else {
+                    console.log("Malformed postseason game data");
                   }
 
                   // Add the template game div to the page

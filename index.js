@@ -870,6 +870,12 @@
      * Populate the list of ongoing postseason games.
      */
     populatePostseasonOngoing : function(mode, container) {
+
+
+      // Todo: split the API calls so they are separate
+
+
+
       // get the league names from the games
       let url = this.baseApiUrl + '/currentGames';
 
@@ -883,7 +889,8 @@
         .then(res => res.json())
         .then((seedsApiResult) => {
 
-          this.loadingElem.classList.add('invisible');
+          this.loading(show = false);
+          //this.loadingElem.classList.add('invisible');
 
           // Assemble a sorted list of leagues
           var leaguesSet = new Set();

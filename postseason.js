@@ -497,6 +497,7 @@
             teamNameElem = t2tags[t];
             teamNameElem.innerHTML = minigame.team2Name;
           }
+          console.log(' + done updating team names');
         }
 
         // --------------
@@ -513,6 +514,7 @@
             teamColorElem = t2tags[t];
             teamColorElem.style.color = minigame.team2Color;
           }
+          console.log(' + done updating team colors');
         }
 
         // Game descriptions
@@ -523,6 +525,7 @@
             var descElem = descElems[iD];
             descElem.innerHTML = minigame.description;
           }
+          console.log(' + done updating game descr');
         }
 
         // Assemble series W-L records
@@ -540,6 +543,7 @@
             teamWinLossElem = t2tags[t];
             teamWinLossElem.innerHTML = wlstr2;
           }
+          console.log(' + done updating w-l records');
         }
 
         // Update team scores
@@ -555,6 +559,7 @@
           for (iE = 0; iE < t2ScoreElems.length; iE++) {
             t2ScoreElems[iE].innerHTML = t2s;
           }
+          console.log(' + done updating scores');
         }
 
         // Update number of generations
@@ -565,6 +570,7 @@
             genNumberElem = genTags[gt];
             genNumberElem.innerHTML = minigame.generations;
           }
+          console.log(' + done updating generations');
         }
 
         // Update map pattern name
@@ -576,6 +582,7 @@
             mapNameElem = mapTags[mt];
             mapNameElem.innerHTML = mapName;
           }
+          console.log(' + done updating mapnames');
         }
 
         // Update simulate game button link
@@ -587,6 +594,7 @@
             btnNameElem = btnTags[bt];
             btnNameElem.setAttribute('href', btnUrl);
           }
+          console.log(' + done updating simulate buttons');
         }
       } else {
         console.log('Could not find element for game ' + minigame.gameid);

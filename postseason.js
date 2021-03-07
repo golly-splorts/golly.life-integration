@@ -468,7 +468,7 @@
       var gametemplate = document.getElementById('finished-postgame-template');
       var cloneFragment = gametemplate.content.cloneNode(true);
       // Add the game id to the template game id
-      if (minigame.hasOwnProperty('id')) {
+      if (minigame.hasOwnProperty('gameid')) {
         cloneFragment.querySelector(".card").setAttribute("id", minigame.id);
       }
       // Add the template game div to the page
@@ -572,7 +572,7 @@
       }
 
       // Update simulate game button link
-      if (minigame.hasOwnProperty('id')) {
+      if (minigame.hasOwnProperty('gameid')) {
         var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + minigame.id;
         var btnTags = elem.getElementsByClassName('simulate');
         var bt;

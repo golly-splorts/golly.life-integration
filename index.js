@@ -85,8 +85,12 @@
      * Show the site loading message while waiting for the API response
      */
     loading : function() {
-      this.loadingElem = document.getElementById('container-loading');
-      this.loadingElem.classList.remove('invisible');
+      var loadingMessages = document.getElementsByCLassName("laoding-message");
+      var m;
+      for (m = 0; m < loadingMessages.length; m++) {
+        var elem = loadingMessages[m];
+        elem.classList.remove('invisible');
+      }
     },
 
     /**

@@ -231,6 +231,7 @@
           var minigame = miniday[iGame];
           if (minigame.league == league) {
             if (minigame.description.match(seriesMatchText)) {
+              console.log('owat');
               this.populateGamesHelper(minigame, seriesContainerElem);
             } // end if this game matches the series number
           } // end if this game matches the league

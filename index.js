@@ -97,8 +97,8 @@
           console.log('showing loading message');
           elem.classList.remove('invisible');
         } else {
-          console.log('hiding loading message');
-          elem.classList.add('invisible');
+          console.log('removing loading message');
+          elem.remove();
         }
       }
     },

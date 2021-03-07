@@ -17,7 +17,7 @@ function getBaseApiUrl() {
   if (baseApiUrl==='') {
     var protocol = window.location.protocol;
     var host = window.location.host;
-    return protocol + '//cloud.' + host;
+    return protocol + '//api.' + host;
   } else {
     return baseApiUrl;
   }

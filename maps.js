@@ -123,27 +123,17 @@
             var iNew;
             for (iNew = 0; iNew < newBadgeElems.length; iNew++) {
               var newBadgeElem = newBadgeElems[iNew];
+              var show = false;
               if (thisMap.hasOwnProperty('mapStartSeason')) {
-                console.log(thisMap.mapStartSeason - this.season0);
-                if ((this.season0 - thisMap.mapStartSeason) <= 2) {
-                  newBadgeElem.classList.remove('invisible');
-                } else {
-                  newBadgeElem.remove();
+                if (thisMap.mapStartSeason <= this.season0) {
+                  if ((this.season0 - thisMap.mapStartSeason) <= 2) {
+                    show = true;
+                    newBadgeElem.classList.remove('invisible');
+                  }
                 }
               }
-            }
-
-            // Make retired label visible if map end date >= current season
-            var retBadgeElems = mapCard.getElementsByClassName('map-badge-retired');
-            var iRet;
-            for (iRet = 0; iRet < retBadgeElems.length; iRet++) {
-              var retBadgeElem = retBadgeElems[iRet];
-              if (thisMap.hasOwnProperty('mapEndSeason')) {
-                if (thisMap.mapEndSeason <= this.season0) {
-                  retBadgeElem.classList.remove('invisible');
-                } else {
-                  retBadgeElem.remove();
-                }
+              if (!show) {
+                newBadgeElem.remove();
               }
             }
 
@@ -168,12 +158,10 @@
             for (iS = 0; iS < simElems.length; iS++) {
               var simElem = simElems[iS];
               if (thisMap.hasOwnProperty('patternName')) {
-                simElem.setAttribute('href', this.baseUIUrl + '/simulator/index.html?patternName=' + thisMap.patternName);
+                simElem.setAttribute('href', this.baseUIUrl + '/simulator/index.html?patternName=' + thisMap.patternName + '&rows=200&cols=240');
               }
             }
-
           }
-
         })
         .catch(err => {
           console.log(err);

@@ -332,6 +332,9 @@
           // Map initial conditions
           this.initialState1 = this.gameApiResult.initialConditions1;
           this.initialState2 = this.gameApiResult.initialConditions2;
+          this.columns = this.gameApiResult.columns;
+          this.rows = this.gameApiResult.rows;
+          this.cellSize = this.gameApiResult.cellSize;
 
           this.setZoomState();
           this.setInitialState();
@@ -377,11 +380,12 @@
           this.setTeamNames();
           this.setColors();
 
-          this.mapApiResult = mapApiResult;
-
           // Initial conditions
-          this.initialState1 = this.mapApiResult.initialConditions1;
-          this.initialState2 = this.mapApiResult.initialConditions2;
+          this.initialState1 = mapApiResult.initialConditions1;
+          this.initialState2 = mapApiResult.initialConditions2;
+          this.columns = mapApiResult.columns;
+          this.rows = mapApiResult.rows;
+          this.cellSize = mapApiResult.cellSize;
 
           this.setZoomState();
           this.setInitialState();
@@ -703,10 +707,11 @@
      */
     setZoomState : function() {
       if (this.gameMode === true || this.mapMode === true) {
-        // Set zoom info from map
+        /* we are all good
         this.columns  = this.mapApiResult.columns;
         this.rows     = this.mapApiResult.rows;
         this.cellSize = this.mapApiResult.cellSize;
+         */
       } else {
         this.columns = this.getColsFromUrlSafely();
         this.rows = this.getRowsFromUrlSafely();

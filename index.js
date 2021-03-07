@@ -65,7 +65,7 @@
     error : function(mode) {
 
       // Hide elements
-      this.loading(show=false);
+      this.loading(false);
       /*
       this.loadingElem.classList.add('invisible');
       */
@@ -891,8 +891,7 @@
         .then(res => res.json())
         .then((seedsApiResult) => {
 
-          console.log('hiding loading elem');
-          this.loading(show = false);
+          this.loading(false);
           //this.loadingElem.classList.add('invisible');
 
           // Assemble a sorted list of leagues

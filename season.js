@@ -430,7 +430,7 @@
           }
 
           // Update simulate game button link
-          if (game.hasOwnProperty('id')) {
+          if (game.hasOwnProperty('gameid')) {
             var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.gameid;
             var btnTags = elem.getElementsByClassName('simulate');
             var bt;

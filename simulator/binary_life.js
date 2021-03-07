@@ -329,12 +329,9 @@
           // otherwise, use updated neighbor color rules
           this.neighborColorLegacyMode = (this.gameApiResult.season < 3);
 
-          // Store map data as its own variable, for code re-use
-          this.mapApiResult = this.gameApiResult.map;
-
           // Map initial conditions
-          this.initialState1 = this.mapApiResult.initialConditions1;
-          this.initialState2 = this.mapApiResult.initialConditions2;
+          this.initialState1 = this.gameApiResult.initialConditions1;
+          this.initialState2 = this.gameApiResult.initialConditions2;
 
           this.setZoomState();
           this.setInitialState();

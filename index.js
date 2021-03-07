@@ -153,7 +153,6 @@
       this.updateCountdownClock(countdownStart);
       this.updateSeedTable();
       this.populatePostseasonWaiting(mode, container);
-
     },
 
     /**
@@ -175,7 +174,6 @@
       this.updateSeasonHeader();
       this.updateSeedTable();
       this.populatePostseasonOngoing(mode, container);
-
     },
 
     /**
@@ -184,7 +182,6 @@
     mode40plus : function(mode) {
       container = this.filterContainers('container-mode40plus');
       this.updateSeasonHeader();
-      this.loadingElem.classList.add('invisible');
       this.updateChampions();
       this.minilife();
     },
@@ -252,8 +249,6 @@
       fetch(url)
       .then(res => res.json())
       .then((seedsApiResult) => {
-
-        this.loadingElem.classList.add('invisible');
 
         var seedtables = document.getElementsByClassName("seed-table");
         var template = document.getElementById('seed-table-template');
@@ -352,6 +347,8 @@
 
           if (apiResult.hasOwnProperty('abbr')) {
 
+            this.loadingElem.classList.add('invisible');
+
             var iconSize = "200";
             var iconId = "champion-icon";
             var icontainerId = "champion-icon-container";
@@ -421,12 +418,10 @@
       }
     },
 
-
     /**
      * Utility method to populate a league div with results from the /currentGames API
      */
     fillLeagueContainer : function(leagueContainerElem, leagueNameElem, leagueName, currGamesApiResult) {
-      console.log('ohai');
 
       leagueNameElem.innerHTML = leagueName;
 
@@ -600,6 +595,8 @@
         .then(res => res.json())
         .then((seedsApiResult) => {
 
+          this.loadingElem.classList.add('invisible');
+
           // Assemble a sorted list of leagues
           var leaguesSet = new Set();
           for (var league in seedsApiResult) {
@@ -732,7 +729,7 @@
             // begin if mode 23
 
             // Hellmouth Cup has no league, single-column
-            var leagueContainerElem = document.getElementById('ws-league-waiting-container');
+            var leagueContainerElem = document.getElementById('hcs-league-waiting-container');
             var g;
             for (g = 0; g < currGamesApiResult.length; g++) {
               var game = currGamesApiResult[g];
@@ -742,7 +739,7 @@
               var cloneFragment = postTemplate.content.cloneNode(true);
 
               // Add the game id to the template game id
-              if (game.hasOwnProperty('id')) {
+              if (game.hasOwnProperty('gameid')) {
                 cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
               }
 
@@ -1021,7 +1018,7 @@
                     }
 
                     // Update simulate game button link
-                    if (game.hasOwnProperty('id')) {
+                    if (game.hasOwnProperty('gameid')) {
                       var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.gameid;
                       var btnTags = elem.getElementsByClassName('simulate');
                       var bt;
@@ -1052,7 +1049,7 @@
               var cloneFragment = postTemplate.content.cloneNode(true);
 
               // Add the game id to the template game id
-              if (game.hasOwnProperty('id')) {
+              if (game.hasOwnProperty('gameid')) {
                 cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
               }
 
@@ -1166,7 +1163,7 @@
               }
 
               // Update simulate game button link
-              if (game.hasOwnProperty('id')) {
+              if (game.hasOwnProperty('gameid')) {
                 var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.gameid;
                 var btnTags = elem.getElementsByClassName('simulate');
                 var bt;

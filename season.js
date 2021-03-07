@@ -339,7 +339,7 @@
         if (game.league == leagueName) {
           // Create a copy of the finished game template and attach it
           var gameCloneFragment = finishedGameTemplate.content.cloneNode(true);
-          var gameId = game.id;
+          var gameId = game.gameid;
           gameCloneFragment.querySelector(".card").setAttribute("id", gameId);
           leagueContainerElem.appendChild(gameCloneFragment);
 
@@ -431,7 +431,7 @@
 
           // Update simulate game button link
           if (game.hasOwnProperty('id')) {
-            var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.id;
+            var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.gameid;
             var btnTags = elem.getElementsByClassName('simulate');
             var bt;
             for (bt = 0; bt < btnTags.length; bt++) {

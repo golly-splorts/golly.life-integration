@@ -130,7 +130,6 @@
     mode1019 : function(mode) {
       var container = this.filterContainers('container-mode1019');
       this.updateSeasonHeader();
-      this.updateSeedTable();
       this.populateSeasonGames(mode, container);
     },
 

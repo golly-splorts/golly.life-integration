@@ -335,6 +335,11 @@
           this.columns = this.gameApiResult.columns;
           this.rows = this.gameApiResult.rows;
           this.cellSize = this.gameApiResult.cellSize;
+          this.mapName = this.gameApiResult.mapName;
+          this.mapZone1Name = this.gameApiResult.mapZone1Name;
+          this.mapZone2Name = this.gameApiResult.mapZone2Name;
+          this.mapZone3Name = this.gameApiResult.mapZone3Name;
+          this.mapZone4Name = this.gameApiResult.mapZone4Name;
 
           this.setZoomState();
           this.setInitialState();
@@ -519,11 +524,11 @@
      */
     updateMapLabels : function() {
       if (this.grid.mapOverlay===true) {
-        this.element.mapName.innerHTML = this.mapApiResult['mapName'];
-        this.element.z1lab.innerHTML = this.mapApiResult['mapZone1Name'];
-        this.element.z2lab.innerHTML = this.mapApiResult['mapZone2Name'];
-        this.element.z3lab.innerHTML = this.mapApiResult['mapZone3Name'];
-        this.element.z4lab.innerHTML = this.mapApiResult['mapZone4Name'];
+        this.element.mapName.innerHTML = this.mapName;
+        this.element.z1lab.innerHTML = this.mapZone1Name;
+        this.element.z2lab.innerHTML = this.mapZone2Name;
+        this.element.z3lab.innerHTML = this.mapZone3Name;
+        this.element.z4lab.innerHTML = this.mapZone4Name;
       } else {
         // Remove the Map line from the scoreboard
         this.element.mapScoreboardPanel.remove();

@@ -442,7 +442,7 @@
 
           // Add the game id to the template game id
           if (game.hasOwnProperty('gameid')) {
-            cloneFragment.querySelector(".card").setAttribute("id", game.id);
+            cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
           }
 
           // Add the template game div to the page
@@ -455,7 +455,7 @@
         var game = currGamesApiResult[g];
         if (game.league==leagueName) {
 
-          var elem = document.getElementById(game.id);
+          var elem = document.getElementById(game.gameid);
 
           if (elem!=null) {
             // Team name labels
@@ -518,7 +518,7 @@
 
             // Update simulate game button link
             if (game.hasOwnProperty('gameid')) {
-              var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.id;
+              var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.gameid;
               var btnTags = elem.getElementsByClassName('simulate');
               var bt;
               for (bt = 0; bt < btnTags.length; bt++) {
@@ -527,7 +527,7 @@
               }
             }
           } else {
-            console.log('Could not find element for game ' + game.id);
+            console.log('Could not find element for game ' + game.gameid);
           }
         } // End if game in correct league
       } // End populate each div
@@ -640,7 +640,7 @@
 
                   // Add the game id to the template game id
                   if (game.hasOwnProperty('gameid')) {
-                    cloneFragment.querySelector(".card").setAttribute("id", game.id);
+                    cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
                   }
 
                   // Add the template game div to the page
@@ -655,7 +655,7 @@
 
                   var t1tags, t2tags, t, elem;
 
-                  elem = document.getElementById(game.id);
+                  elem = document.getElementById(game.gameid);
 
                   if (game.hasOwnProperty('team1Name') && game.hasOwnProperty('team2Name')) {
 
@@ -742,7 +742,7 @@
 
               // Add the game id to the template game id
               if (game.hasOwnProperty('id')) {
-                cloneFragment.querySelector(".card").setAttribute("id", game.id);
+                cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
               }
 
               // Add the template game div to the page
@@ -756,7 +756,7 @@
               var t1tags, t2tags, t, elem;
 
               game = currGamesApiResult[g];
-              elem = document.getElementById(game.id);
+              elem = document.getElementById(game.gameid);
 
               if (game.hasOwnProperty('team1Name') && game.hasOwnProperty('team2Name')) {
 
@@ -917,7 +917,7 @@
 
                   // Add the game id to the template game id
                   if (game.hasOwnProperty('id')) {
-                    cloneFragment.querySelector(".card").setAttribute("id", game.id);
+                    cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
                   }
 
                   // Add the template game div to the page
@@ -932,7 +932,7 @@
 
                   var t1tags, t2tags, t, elem;
 
-                  elem = document.getElementById(game.id);
+                  elem = document.getElementById(game.gameid);
 
                   if (game.hasOwnProperty('team1Name') && game.hasOwnProperty('team2Name')) {
 
@@ -1018,7 +1018,7 @@
 
                   // Update simulate game button link
                   if (game.hasOwnProperty('id')) {
-                    var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.id;
+                    var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.gameid;
                     var btnTags = elem.getElementsByClassName('simulate');
                     var bt;
                     for (bt = 0; bt < btnTags.length; bt++) {
@@ -1047,7 +1047,7 @@
 
               // Add the game id to the template game id
               if (game.hasOwnProperty('id')) {
-                cloneFragment.querySelector(".card").setAttribute("id", game.id);
+                cloneFragment.querySelector(".card").setAttribute("id", game.gameid);
               }
 
               // Add the template game div to the page
@@ -1060,7 +1060,7 @@
               var t1tags, t2tags, t, elem;
 
               game = currGamesApiResult[g];
-              elem = document.getElementById(game.id);
+              elem = document.getElementById(game.gameid);
 
               if (game.hasOwnProperty('team1Name') && game.hasOwnProperty('team2Name')) {
 
@@ -1161,7 +1161,7 @@
 
               // Update simulate game button link
               if (game.hasOwnProperty('id')) {
-                var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.id;
+                var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.gameid;
                 var btnTags = elem.getElementsByClassName('simulate');
                 var bt;
                 for (bt = 0; bt < btnTags.length; bt++) {

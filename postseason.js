@@ -462,6 +462,8 @@
 
     populateGamesHelper : function(minigame, seriesContainerElem) {
 
+      console.log('ohai');
+
       // --------------
       // Create a new game:
       // Create a clone of the template

@@ -427,6 +427,7 @@
      * Utility method to populate a league div with results from the /currentGames API
      */
     fillLeagueContainer : function(leagueContainerElem, leagueNameElem, leagueName, currGamesApiResult) {
+      console.log('ohai');
 
       leagueNameElem.innerHTML = leagueName;
 

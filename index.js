@@ -93,8 +93,10 @@
       for (m = 0; m < loadingMessages.length; m++) {
         var elem = loadingMessages[m];
         if (show) {
+          console.log('showing loading message');
           elem.classList.remove('invisible');
         } else {
+          console.log('hiding loading message');
           elem.classList.add('invisible');
         }
       }
@@ -889,6 +891,7 @@
         .then(res => res.json())
         .then((seedsApiResult) => {
 
+          console.log('hiding loading elem');
           this.loading(show = false);
           //this.loadingElem.classList.add('invisible');
 

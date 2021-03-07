@@ -1039,7 +1039,7 @@
             // begin if mode 33
 
             // World Series has no league, single-column
-            var leagueContainerElem = document.getElementById('ws-league-ongoing-container');
+            var leagueContainerElem = document.getElementById('hcs-league-ongoing-container');
             var g;
             for (g = 0; g < currGamesApiResult.length; g++) {
               var game = currGamesApiResult[g];

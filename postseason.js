@@ -14,7 +14,7 @@
       'season-header-container',
       'postseason-toc-container',
       'postseason-champion-container',
-      'postseason-ws-container',
+      'postseason-hcs-container',
       'postseason-lcs-container',
       'postseason-lds-container'
     ],
@@ -153,8 +153,8 @@
                 this.fillLdsSeriesContainer(postseasonApiResult[series]);
               } else if (lower=='lcs') {
                 this.fillLcsSeriesContainer(postseasonApiResult[series]);
-              } else if (lower=='ws') {
-                this.fillWsSeriesContainer(postseasonApiResult[series]);
+              } else if (lower=='hcs') {
+                this.fillHcsSeriesContainer(postseasonApiResult[series]);
                 this.fillChampionsContainer(postseasonApiResult[series], season0, currentSeason);
               }
 
@@ -295,19 +295,19 @@
     },
 
     /**
-     * Fill the WS game container (only one)
+     * Fill the HCS game container (only one)
      */
-    fillWsSeriesContainer : function(miniseason) {
-      var container = document.getElementById('postseason-ws-container');
-      var leagueContainer = document.getElementById('ws-league-container');
-      this.populateWsGames(miniseason, leagueContainer);
+    fillHcsSeriesContainer : function(miniseason) {
+      var container = document.getElementById('postseason-hcs-container');
+      var leagueContainer = document.getElementById('hcs-league-container');
+      this.populateHcsGames(miniseason, leagueContainer);
       container.classList.remove('invisible');
     },
 
     /**
-     * Populate a WS series container with games.
+     * Populate a HCS series container with games.
      */
-    populateWsGames : function(miniseason, seriesContainerElem) {
+    populateHcsGames : function(miniseason, seriesContainerElem) {
       var iDay;
       for (iDay = 0; iDay < miniseason.length; iDay++) {
         var miniday = miniseason[iDay];

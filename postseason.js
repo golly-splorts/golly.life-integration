@@ -231,7 +231,6 @@
           var minigame = miniday[iGame];
           if (minigame.league == league) {
             if (minigame.description.match(seriesMatchText)) {
-              console.log('owat');
               this.populateGamesHelper(minigame, seriesContainerElem);
             } // end if this game matches the series number
           } // end if this game matches the league
@@ -463,8 +462,6 @@
 
     populateGamesHelper : function(minigame, seriesContainerElem) {
 
-      console.log('ohai');
-
       // --------------
       // Create a new game:
       // Create a clone of the template
@@ -481,6 +478,11 @@
       var elem = document.getElementById(minigame.id);
 
       if (elem!=null) {
+
+        console.log('-----');
+        console.log('ohai again');
+        console.log(minigame);
+
         // --------------
         // Team name labels:
         if (minigame.hasOwnProperty('team1Name') && minigame.hasOwnProperty('team2Name')) {

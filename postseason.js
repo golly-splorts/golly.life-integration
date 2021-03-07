@@ -576,7 +576,7 @@
 
         // Update simulate game button link
         if (minigame.hasOwnProperty('gameid')) {
-          var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + minigame.id;
+          var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + minigame.gameid;
           var btnTags = elem.getElementsByClassName('simulate');
           var bt;
           for (bt = 0; bt < btnTags.length; bt++) {

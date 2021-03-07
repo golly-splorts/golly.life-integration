@@ -930,22 +930,18 @@
     updateTeamRecords : function() {
       if (this.gameMode === true) {
         var game = this.gameApiResult;
-        if (game.hasOwnProperty('team1WinLoss') && game.hasOwnProperty('team2WinLoss')) {
-          // Season: win-loss record to date
-          var wlstr1 = game.team1WinLoss[0] + "-" + game.team1WinLoss[1];
-          var wlstr2 = game.team2WinLoss[0] + "-" + game.team2WinLoss[1];
-          this.element.team1wlrec.innerHTML = wlstr1;
-          this.element.team2wlrec.innerHTML = wlstr2;
-        } else if (game.hasOwnProperty('team1SeriesWinLoss') && game.hasOwnProperty('team2SeriesWinLoss')) {
+        if (game.isPostseason) {
           // Postseason: win-loss record in current series
           var swlstr1 = game.team1SeriesWinLoss[0] + "-" + game.team1SeriesWinLoss[1];
           var swlstr2 = game.team2SeriesWinLoss[0] + "-" + game.team2SeriesWinLoss[1];
           this.element.team1wlrec.innerHTML = swlstr1;
           this.element.team2wlrec.innerHTML = swlstr2;
         } else {
-          // Remove the two rows containing the team records (no info)
-          this.element.team1wlrecCont.remove();
-          this.element.team2wlrecCont.remove();
+          // Season: win-loss record to date
+          var wlstr1 = game.team1WinLoss[0] + "-" + game.team1WinLoss[1];
+          var wlstr2 = game.team2WinLoss[0] + "-" + game.team2WinLoss[1];
+          this.element.team1wlrec.innerHTML = wlstr1;
+          this.element.team2wlrec.innerHTML = wlstr2;
         }
       } else {
         this.element.team1wlrecCont.remove();

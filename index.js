@@ -88,6 +88,7 @@
      * Show the site loading message while waiting for the API response
      */
     loading : function(show = true) {
+      console.log('calling loading() with show = ' + show);
       var loadingMessages = document.getElementsByClassName("laoding-message");
       var m;
       for (m = 0; m < loadingMessages.length; m++) {

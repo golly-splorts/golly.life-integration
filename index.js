@@ -992,7 +992,7 @@
                       }
                     }
 
-                    // Update map pattern name
+                    // Update map name
                     if (game.hasOwnProperty('mapName')) {
                       var mapName = game.mapName;
                       var mapTags = elem.getElementsByClassName('map-name');
@@ -1038,7 +1038,7 @@
           } else if(mode==33) {
             // begin if mode 33
 
-            // World Series has no league, single-column
+            // HCS has no league, single-column
             var leagueContainerElem = document.getElementById('hcs-league-ongoing-container');
             var g;
             for (g = 0; g < currGamesApiResult.length; g++) {

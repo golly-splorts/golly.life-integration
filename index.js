@@ -440,7 +440,7 @@
           var cloneFragment = gametemplate.content.cloneNode(true);
 
           // Add the game id to the template game id
-          if (game.hasOwnProperty('id')) {
+          if (game.hasOwnProperty('gameid')) {
             cloneFragment.querySelector(".card").setAttribute("id", game.id);
           }
 
@@ -456,73 +456,77 @@
 
           var elem = document.getElementById(game.id);
 
-          // Team name labels
-          if (game.hasOwnProperty('team1Name') && game.hasOwnProperty('team2Name')) {
-            var t1tags = elem.getElementsByClassName('team1name');
-            var t2tags = elem.getElementsByClassName('team2name');
-            var t;
-            for (t = 0; t < t1tags.length; t++) {
-              teamNameElem = t1tags[t];
-              teamNameElem.innerHTML = game.team1Name;
+          if (elem!=null) {
+            // Team name labels
+            if (game.hasOwnProperty('team1Name') && game.hasOwnProperty('team2Name')) {
+              var t1tags = elem.getElementsByClassName('team1name');
+              var t2tags = elem.getElementsByClassName('team2name');
+              var t;
+              for (t = 0; t < t1tags.length; t++) {
+                teamNameElem = t1tags[t];
+                teamNameElem.innerHTML = game.team1Name;
+              }
+              for (t = 0; t < t2tags.length; t++) {
+                teamNameElem = t2tags[t];
+                teamNameElem.innerHTML = game.team2Name;
+              }
             }
-            for (t = 0; t < t2tags.length; t++) {
-              teamNameElem = t2tags[t];
-              teamNameElem.innerHTML = game.team2Name;
-            }
-          }
 
-          // Team colors
-          if (game.hasOwnProperty('team1Color') && game.hasOwnProperty('team2Color')) {
-            var t1tags = elem.getElementsByClassName('team1color');
-            var t2tags = elem.getElementsByClassName('team2color');
-            var t;
-            for (t = 0; t < t1tags.length; t++) {
-              teamColorElem = t1tags[t];
-              teamColorElem.style.color = game.team1Color;
+            // Team colors
+            if (game.hasOwnProperty('team1Color') && game.hasOwnProperty('team2Color')) {
+              var t1tags = elem.getElementsByClassName('team1color');
+              var t2tags = elem.getElementsByClassName('team2color');
+              var t;
+              for (t = 0; t < t1tags.length; t++) {
+                teamColorElem = t1tags[t];
+                teamColorElem.style.color = game.team1Color;
+              }
+              for (t = 0; t < t2tags.length; t++) {
+                teamColorElem = t2tags[t];
+                teamColorElem.style.color = game.team2Color;
+              }
             }
-            for (t = 0; t < t2tags.length; t++) {
-              teamColorElem = t2tags[t];
-              teamColorElem.style.color = game.team2Color;
-            }
-          }
 
-          // Assemble team W-L records
-          if (game.hasOwnProperty('team1WinLoss') && game.hasOwnProperty('team2WinLoss')) {
-            var wlstr1 = "(" + game.team1WinLoss[0] + "-" + game.team1WinLoss[1] + ")";
-            var wlstr2 = "(" + game.team2WinLoss[0] + "-" + game.team2WinLoss[1] + ")";
-            var t1tags = elem.getElementsByClassName('team1record');
-            var t2tags = elem.getElementsByClassName('team2record');
-            var t;
-            for (t = 0; t < t1tags.length; t++) {
-              teamWinLossElem = t1tags[t];
-              teamWinLossElem.innerHTML = wlstr1;
+            // Assemble team W-L records
+            if (game.hasOwnProperty('team1WinLoss') && game.hasOwnProperty('team2WinLoss')) {
+              var wlstr1 = "(" + game.team1WinLoss[0] + "-" + game.team1WinLoss[1] + ")";
+              var wlstr2 = "(" + game.team2WinLoss[0] + "-" + game.team2WinLoss[1] + ")";
+              var t1tags = elem.getElementsByClassName('team1record');
+              var t2tags = elem.getElementsByClassName('team2record');
+              var t;
+              for (t = 0; t < t1tags.length; t++) {
+                teamWinLossElem = t1tags[t];
+                teamWinLossElem.innerHTML = wlstr1;
+              }
+              for (t = 0; t < t2tags.length; t++) {
+                teamWinLossElem = t2tags[t];
+                teamWinLossElem.innerHTML = wlstr2;
+              }
             }
-            for (t = 0; t < t2tags.length; t++) {
-              teamWinLossElem = t2tags[t];
-              teamWinLossElem.innerHTML = wlstr2;
-            }
-          }
 
-          // Update map pattern name
-          if (game.hasOwnProperty('mapName')) {
-            var mapName = game.mapName;
-            var mapTags = elem.getElementsByClassName('map-name');
-            var mt;
-            for (mt = 0; mt < mapTags.length; mt++) {
-              mapNameElem = mapTags[mt];
-              mapNameElem.innerHTML = mapName;
+            // Update map pattern name
+            if (game.hasOwnProperty('mapName')) {
+              var mapName = game.mapName;
+              var mapTags = elem.getElementsByClassName('map-name');
+              var mt;
+              for (mt = 0; mt < mapTags.length; mt++) {
+                mapNameElem = mapTags[mt];
+                mapNameElem.innerHTML = mapName;
+              }
             }
-          }
 
-          // Update simulate game button link
-          if (game.hasOwnProperty('id')) {
-            var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.id;
-            var btnTags = elem.getElementsByClassName('simulate');
-            var bt;
-            for (bt = 0; bt < btnTags.length; bt++) {
-              btnNameElem = btnTags[bt];
-              btnNameElem.setAttribute('href', btnUrl);
+            // Update simulate game button link
+            if (game.hasOwnProperty('gameid')) {
+              var btnUrl = this.baseUIUrl + '/simulator/index.html?gameId=' + game.id;
+              var btnTags = elem.getElementsByClassName('simulate');
+              var bt;
+              for (bt = 0; bt < btnTags.length; bt++) {
+                btnNameElem = btnTags[bt];
+                btnNameElem.setAttribute('href', btnUrl);
+              }
             }
+          } else {
+            console.log('Could not find element for game ' + game.id);
           }
         } // End if game in correct league
       } // End populate each div
@@ -634,7 +638,7 @@
                   var cloneFragment = postTemplate.content.cloneNode(true);
 
                   // Add the game id to the template game id
-                  if (game.hasOwnProperty('id')) {
+                  if (game.hasOwnProperty('gameid')) {
                     cloneFragment.querySelector(".card").setAttribute("id", game.id);
                   }
 

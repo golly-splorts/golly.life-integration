@@ -65,7 +65,10 @@
     error : function(mode) {
 
       // Hide elements
+      this.loading(show=false);
+      /*
       this.loadingElem.classList.add('invisible');
+      */
       for (var c in this.landingDivIds) {
         try {
           var elem = document.getElementById(this.landingDivIds[c]);
@@ -84,12 +87,16 @@
     /**
      * Show the site loading message while waiting for the API response
      */
-    loading : function() {
+    loading : function(show = true) {
       var loadingMessages = document.getElementsByClassName("laoding-message");
       var m;
       for (m = 0; m < loadingMessages.length; m++) {
         var elem = loadingMessages[m];
-        elem.classList.remove('invisible');
+        if (show) {
+          elem.classList.remove('invisible');
+        } else {
+          elem.classList.add('invisible');
+        }
       }
     },
 

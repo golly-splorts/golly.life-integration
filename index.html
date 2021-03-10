@@ -23,8 +23,8 @@ var baseUIUrl  = 'https://integration.golly456.life';
 
     <!--
         Versions:
-        golly-pelican: 14.0.0dev0
-        golly-pelican-theme: 14.0.0dev0
+        golly-pelican: 14.0.0
+        golly-pelican-theme: 14.0.0
     -->
 
     <link href="https://integration.golly456.life/theme/css/flipdown.min.css"  rel="stylesheet" type="text/css">
@@ -467,7 +467,6 @@ add this to pelican pages:
 
 
 
-<!--
 <div class="container invisible" id="container-loading">
 
     <div class="row text-center notify-header">
@@ -477,14 +476,13 @@ add this to pelican pages:
     </div>
 
 </div>
--->
 
 
 <div class="container invisible" id="container-mode0009">
 
-    <div class="row text-offwhite text-center landing-header justify-content-lg-center">
+    <div class="row text-center landing-header justify-content-lg-center">
       <div class="col-md-12">
-        <h2>Season <span id="landing-header-season"></span> will begin soon!</h2>
+        <h2>Season <span id="landing-header-season-number">_</span> will begin soon!</h2>
       </div>
     </div>
 
@@ -509,7 +507,13 @@ add this to pelican pages:
 
     <div class="row text-center landing-header">
       <div class="col-md-12">
-        <h2>Season <span id="landing-header-season">_</span> Day <span id="landing-header-day">_</span>: Current Golly Games</h2>
+        <h2>Season <span id="landing-header-season-number">_</span><span style="display: none;" id="landing-header-day"> Day <span id="landing-header-day-number">_</span></span>: Current Golly Games</h2>
+      </div>
+    </div>
+
+    <div class="row text-center notify-header invisible loading-message" id="mode1019-loading-message">
+      <div class="col-md-12">
+        <h4 class="text-success">The site is currently loading...</h4>
       </div>
     </div>
 
@@ -531,13 +535,19 @@ add this to pelican pages:
 
     <div class="row text-center landing-header">
       <div class="col-md-12">
-        <h2>Season <span id="landing-header-season">_</span>: Golly League Division Series</h2>
+        <h2>Season <span id="landing-header-season-number">_</span>: Golly League Division Series</h2>
         <h4>This best of 5 series will begin soon!</h4>
       </div>
     </div>
 
     <div class="row justify-content-lg-center flipdown-clock">
       <div id="flipdown" class="flipdown"></div>
+    </div>
+
+    <div class="row text-center notify-header invisible loading-message" id="mode21-loading-message">
+      <div class="col-md-12">
+        <h4 class="text-success">The site is currently loading...</h4>
+      </div>
     </div>
 
     <div class="row justify-content-md-center waiting-container" id="lds-waiting-container">
@@ -562,13 +572,19 @@ add this to pelican pages:
 
     <div class="row text-center landing-header">
       <div class="col-md-12">
-        <h2>Season <span id="landing-header-season">_</span>: Golly League Championship Series</h2>
+        <h2>Season <span id="landing-header-season-number">_</span>: Golly League Championship Series</h2>
         <h4>This best of 5 series will begin soon!</h4>
       </div>
     </div>
 
     <div class="row justify-content-lg-center flipdown-clock">
       <div id="flipdown" class="flipdown"></div>
+    </div>
+
+    <div class="row text-center notify-header invisible loading-message" id="mode22-loading-message">
+      <div class="col-md-12">
+        <h4 class="text-success">The site is currently loading...</h4>
+      </div>
     </div>
 
     <div class="row justify-content-md-center waiting-container" id="lcs-waiting-container">
@@ -590,16 +606,21 @@ add this to pelican pages:
 
 <div class="container container-mode2029 invisible" id="container-mode23">
 
-
     <div class="row text-center landing-header">
       <div class="col-md-12">
-        <h2>Season <span id="landing-header-season">_</span>: Hellmouth Cup</h2>
+        <h2>Season <span id="landing-header-season-number">_</span>: Hellmouth Cup</h2>
         <h4>This best of 7 series will begin soon!</h4>
       </div>
     </div>
 
     <div class="row justify-content-lg-center flipdown-clock">
       <div id="flipdown" class="flipdown"></div>
+    </div>
+
+    <div class="row text-center notify-header invisible loading-message" id="mode23-loading-message">
+      <div class="col-md-12">
+        <h4 class="text-success">The site is currently loading...</h4>
+      </div>
     </div>
 
     <div class="row justify-content-md-center waiting-container" id="hcs-waiting-container">
@@ -616,26 +637,25 @@ add this to pelican pages:
 
 <div class="container container-mode3039 invisible" id="container-mode31">
 
-
     <div class="row text-center landing-header">
       <div class="col-md-12">
-        <h2>Season <span id="landing-header-season">_</span>: Golly League Division Series</h2>
+        <h2>Season <span id="landing-header-season-number">_</span>: Golly League Division Series</h2>
         <h4>Best of 5</h4>
       </div>
     </div>
 
-    <div class="row text-center notify-header" class="loading-message" id="mode31-loading-message">
+    <div class="row text-center notify-header invisible loading-message" id="mode31-loading-message">
       <div class="col-md-12">
         <h4 class="text-success">The site is currently loading...</h4>
       </div>
     </div>
 
     <div class="row justify-content-md-center ongoing-container lds-ongoing-container">
-      <div class="col-md-4 league-container" id="league-1-container">
+      <div class="col-md-5 league-container" id="league-1-container">
         <h4 class="text-center league-container-header" id="league-1-header"><span id="league-1-name"></span></h4>
       </div>
 
-      <div class="col-md-4 league-container" id="league-2-container">
+      <div class="col-md-5 league-container" id="league-2-container">
         <h4 class="text-center league-container-header" id="league-2-header"><span id="league-2-name"></span></h4>
       </div>
     </div>
@@ -652,23 +672,23 @@ add this to pelican pages:
 
     <div class="row text-center landing-header">
       <div class="col-md-12">
-        <h2>Season <span id="landing-header-season">_</span>: Golly League Championship Series</h2>
+        <h2>Season <span id="landing-header-season-number">_</span>: Golly League Championship Series</h2>
         <h4>Best of 5</h4>
       </div>
     </div>
 
-    <div class="row text-center notify-header" class="loading-message" id="mode32-loading-message">
+    <div class="row text-center notify-header invisible loading-message" id="mode32-loading-message">
       <div class="col-md-12">
         <h4 class="text-success">The site is currently loading...</h4>
       </div>
     </div>
 
     <div class="row justify-content-md-center ongoing-container" id="lcs-ongoing-container">
-      <div class="col-md-4 league-container" id="league-1-container">
+      <div class="col-md-5 league-container" id="league-1-container">
         <h4 class="text-center league-container-header" id="league-1-header"><span id="league-1-name"></span></h4>
       </div>
 
-      <div class="col-md-4 league-container" id="league-2-container">
+      <div class="col-md-5 league-container" id="league-2-container">
         <h4 class="text-center league-container-header" id="league-2-header"><span id="league-2-name"></span></h4>
       </div>
     </div>
@@ -684,12 +704,12 @@ add this to pelican pages:
 
     <div class="row text-center landing-header">
       <div class="col-md-12">
-        <h2>Season <span id="landing-header-season">_</span>: Hellmouth Cup</h2>
+        <h2>Season <span id="landing-header-season-number">_</span>: Hellmouth Cup</h2>
         <h4>Best of 7</h4>
       </div>
     </div>
 
-    <div class="row text-center notify-header" class="loading-message" id="mode33-loading-message">
+    <div class="row text-center notify-header invisible loading-message" id="mode33-loading-message">
       <div class="col-md-12">
         <h4 class="text-success">The site is currently loading...</h4>
       </div>
@@ -708,12 +728,17 @@ add this to pelican pages:
 
 <div class="container invisible" id="container-mode40plus">
 
+  <h2 class="text-center landing-header">Season <span id="landing-header-season-number">_</span> has ended.<h2>
 
-  <h2 class="text-center champion-header">Season <span id="landing-header-season">_</span> has ended.<h2>
+  <div class="row text-center notify-header invisible loading-message" id="mode33-loading-message">
+    <div class="col-md-12">
+      <h4 class="text-success">The site is currently loading...</h4>
+    </div>
+  </div>
 
   <div class="icon-container text-center" id="champion-icon-container"></div>
 
-  <h3 class="text-center champion-header">Your Golly Champions are: The <span id="champion-team">Winners</span>!</h3>
+  <h3 class="text-center invisible champion-header" id="champion-name-header">Your Golly Champions are: The <span id="champion-team">Winners</span>!</h3>
 
   <div class="row text-center landing-header">
     <div class="col-md-12">

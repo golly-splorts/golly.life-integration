@@ -23,8 +23,8 @@ var baseUIUrl  = 'https://integration.golly456.life';
 
     <!--
         Versions:
-        golly-pelican: 14.0.0dev0
-        golly-pelican-theme: 14.0.0dev0
+        golly-pelican: 14.0.0
+        golly-pelican-theme: 14.0.0
     -->
 
 
@@ -194,16 +194,24 @@ var baseUIUrl  = 'https://integration.golly456.life';
 
 
 <div class="container invisible" id="season-header-container">
+
   <h2 class="text-center season-header">Season <span id="season-header-season-number">_</span> Postseason</h2>
+
+  <div class="row text-center notify-header invisible loading-message" id="mode1019-loading-message">
+    <div class="col-md-12">
+      <h4 class="text-success">The site is currently loading...</h4>
+    </div>
+  </div>
+
 </div>
 
 
 <div class="container invisible" id="postseason-toc-container">
   <div class="row justify-content-md-center season-toc">
-    <div class="col-lg-8">
+    <div class="col-lg-12">
       <div class="text-center lead postseason-jump-to">Jump to:</div>
       <div class="text-center lead" id="postseason-toc-text">
-        <a class="postseason-toc-text" id="ws-postseason-toc-text" href="#">Hellmouth Cup (Round 3)</a>
+        <a class="postseason-toc-text" id="hcs-postseason-toc-text" href="#">Hellmouth Cup (Round 3)</a>
         <a class="postseason-toc-text" id="lcs-postseason-toc-text" href="#">Championship Series (Round 2)</a>
         <a class="postseason-toc-text" id="lds-postseason-toc-text" href="#">Division Series (Round 1)</a>
       </div>
@@ -228,14 +236,14 @@ var baseUIUrl  = 'https://integration.golly456.life';
 
   <div class="row justify-content-md-center postseason-series-header">
     <div class="col-lg-8">
-        <a name="ws" class="padded-anchor"></a>
+        <a name="hcs" class="padded-anchor"></a>
         <h2 class="text-center">Hellmouth Cup</h2>
         <p class="text-center lead">Best of 7</p>
     </div>
   </div>
 
-  <div class="row justify-content-lg-center posteseason-leagues-container" id="ws-leagues-container">
-    <div class="col-lg-6" id="ws-league-container">
+  <div class="row justify-content-lg-center posteseason-leagues-container" id="hcs-leagues-container">
+    <div class="col-lg-6" id="hcs-league-container">
     </div>
   </div>
 
@@ -268,7 +276,7 @@ var baseUIUrl  = 'https://integration.golly456.life';
 <div class="container invisible" id="postseason-lds-container">
 
   <div class="row justify-content-lg-center postseason-series-header" id="lds-series-header">
-    <div class="col-lg-8">
+    <div class="col-lg-10">
       <a name="lds" class="padded-anchor"></a>
       <h2 class="text-center">Division Series</h2>
       <p class="text-center lead">Best of 5</p>
@@ -312,17 +320,6 @@ var baseUIUrl  = 'https://integration.golly456.life';
     <div class="row text-center notify-header">
       <div class="col-md-12">
           <h4 class="text-success">The postseason will begin on Day 50...</h4>
-      </div>
-    </div>
-
-</div>
-
-
-<div class="container invisible" id="container-loading">
-
-    <div class="row text-center notify-header">
-      <div class="col-md-12">
-        <h4 class="text-success">The site is currently loading...</h4>
       </div>
     </div>
 

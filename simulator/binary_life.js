@@ -43,7 +43,7 @@
     rows : 0,
     cellSize: 0,
 
-    waitTime: 0,
+    waitTimeMs: 0,
     generation : 0,
 
     running : false,
@@ -87,7 +87,7 @@
 
     // Grid style
     grid : {
-      current : 0,
+      current : 1,
       mapOverlay : false,
 
       schemes : [
@@ -167,7 +167,6 @@
         // They were moved to inside the loadState() function.
       } catch (e) {
         console.log(e);
-        //alert("Error: "+e);
       }
     },
 
@@ -258,9 +257,9 @@
       // Initial grid config
       grid = parseInt(this.helpers.getUrlParameter('grid'), 10);
       if (isNaN(grid) || grid < 1 || grid > this.grid.schemes.length) {
-        grid = 1;
+        grid = 0;
       }
-      this.grid.current = grid - 1;
+      this.grid.current = 1 - grid;
 
       // Add ?autoplay=1 to the end of the URL to enable autoplay
       this.autoplay = this.helpers.getUrlParameter('autoplay') === '1' ? true : this.autoplay;
@@ -268,6 +267,9 @@
       // Add ?trail=1 to the end of the URL to show trails
       this.trail.current = this.helpers.getUrlParameter('trail') === '1' ? true : this.trail.current;
 
+      // // Get the current wait time (this is updated when the user changes it)
+      // var x = document.getElementById("speed-slider").value;
+      // this.waitTimeMs = Math.min(10**x, 1000);
     },
 
     /**
@@ -817,8 +819,6 @@
           this.listLife.addCell(xx, yy, this.listLife.actualState2);
         }
       }
-
-      //this.listLife.nextGeneration();
     },
 
 
@@ -1005,6 +1005,8 @@
       this.element.mapName = document.getElementById('mapname-label');
       this.element.mapScoreboardPanel = document.getElementById('scoreboard-panel-map');
 
+      this.element.speedSlider = document.getElementById('speed-slider');
+
       this.element.z1lab = document.getElementById('zone1label');
       this.element.z2lab = document.getElementById('zone2label');
       this.element.z3lab = document.getElementById('zone3label');
@@ -1033,6 +1035,9 @@
         this.helpers.registerEvent(document.getElementById('buttonClear'), 'click', this.handlers.buttons.clear, false);
       }
 
+      // Speed control slider
+      this.helpers.registerEvent(document.getElementById('speed-slider'), 'input', this.handlers.buttons.speedControl, false);
+
       // Layout
       this.helpers.registerEvent(document.getElementById('buttonTrail'), 'click', this.handlers.buttons.trail, false);
       this.helpers.registerEvent(document.getElementById('buttonGrid'), 'click', this.handlers.buttons.grid, false);
@@ -1043,6 +1048,7 @@
      * Run Next Step
      */
     nextStep : function() {
+
       var i, x, y, r;
       var liveCellNumbers, liveCellNumber, liveCellNumber1, liveCellNumber2;
       var algorithmTime, guiTime;
@@ -1120,14 +1126,20 @@
       GOL.times.algorithm = (GOL.times.algorithm * (1 - r)) + (algorithmTime * r);
       GOL.times.gui = (GOL.times.gui * (1 - r)) + (guiTime * r);
 
-      // Flow Control
-      if (GOL.running) {
-        window.requestAnimationFrame(GOL.nextStep);
-      } else {
-        if (GOL.clear.schedule) {
-          GOL.cleanUp();
+      var v = this.helpers.getWaitTimeMs();
+
+      // Sleepy time before going on to next step
+      setTimeout(() => {
+        // Flow Control
+        if (GOL.running) {
+          GOL.nextStep();
+        } else {
+          if (GOL.clear.schedule) {
+            GOL.cleanUp();
+          }
         }
-      }
+      }, v);
+
     },
 
 
@@ -1203,10 +1215,21 @@
           if (GOL.sandboxMode === true || GOL.mapMode === true) {
             GOL.handlers.buttons.clear();
           }
+
         } else if (event.keyCode === 82 ) { // Key: R
           GOL.handlers.buttons.run();
+
         } else if (event.keyCode === 83 ) { // Key: S
-          GOL.handlers.buttons.step();
+          if (GOL.running) {
+            // If running, S will stop the simulation
+            GOL.handlers.buttons.run();
+          } else {
+            GOL.handlers.buttons.step();
+          }
+
+        } else if (event.keyCode === 71 ) { // Key: G
+          GOL.handlers.buttons.grid();
+
         }
       },
 
@@ -1302,6 +1325,24 @@
           }
         },
 
+        /**
+         * Update simulation speed
+         */
+        speedControl : function() {
+          console.log('updated speed slider');
+          //var x = 0;
+          //try {
+          //  x = parseInt(document.getElementById("speed-slider").value);
+          //} catch {
+          //  console.log("Could not read speed-slider value, setting to default of 10 ms");
+          //  x = 10;
+          //}
+          // Set the wait time to be the maximum of
+          // 1s and whatever the slider specifies
+          //this.waitTimeMs = Math.min(10**x, 1000);
+          //console.log("Updated wait time to " + this.waitTimeMs);
+        },
+
       },
 
     },
@@ -1383,7 +1424,6 @@
         this.context.fillStyle = GOL.grid.schemes[GOL.grid.current].color;
         this.context.fillRect(0, 0, this.width, this.height);
 
-
         for (i = 0 ; i < GOL.columns; i++) {
           for (j = 0 ; j < GOL.rows; j++) {
             if (GOL.listLife.isAlive(i, j)) {
@@ -1393,6 +1433,7 @@
             }
           }
         }
+
       },
 
 
@@ -2283,6 +2324,31 @@
         y = Math.ceil(((posy - domObject.pageTop)/cellSize) - 1);
 
         return [x, y];
+      },
+
+      getWaitTimeMs : function () {
+        var j = 0;
+        try {
+          j = GOL.element.speedSlider.value;
+        } catch {
+          console.log("Could not read speed-slider value, using default value of 25 ms");
+          return 250;
+        }
+        if (j<=0) {
+          return 0;
+        } else if (j==1) {
+          return 8;
+        } else if (j==2) {
+          return 24;
+        } else if (j==3) {
+          return 60;
+        } else if (j==4) {
+          return 250;
+        } else if (j==5) {
+          return 1000;
+        } else {
+          return 1000;
+        }
       }
     }
 

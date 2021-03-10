@@ -23,8 +23,8 @@ var baseUIUrl  = 'https://integration.golly456.life';
 
     <!--
         Versions:
-        golly-pelican: 14.0.0dev0
-        golly-pelican-theme: 14.0.0dev0
+        golly-pelican: 14.0.0
+        golly-pelican-theme: 14.0.0
     -->
 
 
@@ -213,13 +213,24 @@ var baseUIUrl  = 'https://integration.golly456.life';
     </div>
   </div></template>
 
+
 <div class="container invisible" id="season-header-container">
+
   <h2 class="text-center season-header">Season <span id="season-header-season-number">_</span> Games</h2>
+
+  <div class="row text-center notify-header invisible loading-message" id="mode1019-loading-message">
+    <div class="col-md-12">
+      <h4 class="text-success">The site is currently loading...</h4>
+    </div>
+  </div>
+
 </div>
 
 
 <div class="container invisible" id="day-buttons-container">
+
   <p class="text-center lead">Jump to day:</p>
+
 </div>
 
 
@@ -227,23 +238,11 @@ var baseUIUrl  = 'https://integration.golly456.life';
 </div>
 
 
-
 <div class="container invisible" id="container-season-waiting">
 
   <div class="row text-center notify-header">
     <div class="col-md-12">
         <h4 class="text-success">The season will begin soon...</h4>
-    </div>
-  </div>
-
-</div>
-
-
-<div class="container invisible" id="container-loading">
-
-  <div class="row text-center notify-header">
-    <div class="col-md-12">
-      <h4 class="text-success">The site is currently loading...</h4>
     </div>
   </div>
 

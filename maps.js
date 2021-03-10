@@ -23,11 +23,17 @@
      * Handle the case of an error, tell the user something is wrong
      */
     error : function(mode) {
+
       // Hide elements
-      this.loadingElem.classList.add('invisible');
+      this.loading(false);
+
       for (var c in this.containers) {
-        var elem = document.getElementById(this.containers[c]);
-        elem.classList.add('invisible');
+        try {
+          var elem = document.getElementById(this.containers[c]);
+          elem.classList.add('invisible');
+        } catch (e) {
+          // do nothing
+        }
       }
 
       // Show error elements
@@ -38,9 +44,19 @@
     /**
      * Show the loading message while loading API data.
      */
-    loading : function() {
-      this.loadingElem = document.getElementById('container-loading');
-      this.loadingElem.classList.remove('invisible');
+    loading : function(show = true) {
+      var loadingMessages = document.getElementsByClassName("loading-message");
+      var m;
+      for (m = 0; m < loadingMessages.length; m++) {
+        var elem = loadingMessages[m];
+        if (show) {
+          // Reveal the loading message
+          elem.classList.remove('invisible');
+        } else {
+          // Remove the loading message
+          elem.remove();
+        }
+      }
     },
 
     /**
@@ -49,25 +65,28 @@
     populateMapCards : function() {
 
       // get current day/season info from API /today
-      let url = this.baseApiUrl + '/today';
+      let url = this.baseApiUrl + '/mode';
       fetch(url)
       .then(res => res.json())
-      .then((todayApiResult) => {
+      .then((modeApiResult) => {
 
-        if (todayApiResult[0]==-1) {
-          this.season0 = 1;
+        if (!modeApiResult.hasOwnProperty('season')) {
+          throw "Could not find required property (season) in API /mode response";
         } else {
-          this.season0 = todayApiResult[0];
+          this.season0 = modeApiResult.season;
         }
+
+        this.loading(false);
 
         var mapRowElem = document.getElementById('row-maps');
 
-        let mapsUrl = this.baseApiUrl + '/maps';
+        let mapsUrl = this.baseApiUrl + '/maps/' + this.season0;
         fetch(mapsUrl)
         .then(res => res.json())
         .then((mapsApiResult) => {
 
-          this.loadingElem.classList.add('invisible');
+          this.loading(false);
+
           var mapsContainer = document.getElementById('container-maps');
           mapsContainer.classList.remove('invisible');
 
@@ -164,12 +183,14 @@
           }
         })
         .catch(err => {
+          console.log("Encountered an error calling the /maps API endpoint");
           console.log(err);
           this.error(-1);
         }); // end API /maps
 
       })
       .catch(err => {
+        console.log("Encountered an error calling the /mode API endpoint");
         console.log(err);
         this.error(-1);
       });

@@ -22,11 +22,17 @@
      * Handle the case of an error, tell the user something is wrong
      */
     error : function(mode) {
+
       // Hide elements
-      this.loadingElem.classList.add('invisible');
+      this.loading(false);
+
       for (var c in this.containers) {
-        var elem = document.getElementById(this.containers[c]);
-        elem.classList.add('invisible');
+        try {
+          var elem = document.getElementById(this.containers[c]);
+          elem.classList.add('invisible');
+        } catch (e) {
+          // do nothing
+        }
       }
 
       // Show error 
@@ -35,11 +41,21 @@
     },
 
     /**
-     * Show the site loading message while waiting for the API response
+     * Show/hide the site loading message while waiting for the API response
      */
-    loading : function() {
-      this.loadingElem = document.getElementById('container-loading');
-      this.loadingElem.classList.remove('invisible');
+    loading : function(show = true) {
+      var loadingMessages = document.getElementsByClassName("loading-message");
+      var m;
+      for (m = 0; m < loadingMessages.length; m++) {
+        var elem = loadingMessages[m];
+        if (show) {
+          // Reveal the loading message
+          elem.classList.remove('invisible');
+        } else {
+          // Remove the loading message
+          elem.remove();
+        }
+      }
     },
 
     /**
@@ -48,18 +64,28 @@
      */
     loadConfig : function() {
 
-      this.season = this.helpers.getUrlParameter('season');
+      // season parameter is zero-indexed
+      var url_season = this.helpers.getUrlParameter('season');
+      // which_season parameter is one-indexed
+      var url_which_season = this.helpers.getUrlParameter('which_season');
 
       // Check current season and day
-      let url = this.baseApiUrl + '/today';
+      let url = this.baseApiUrl + '/mode';
       fetch(url)
       .then(res => res.json())
-      .then((todayApiResult) => {
+      .then((modeApiResult) => {
 
-        this.currentSeason = todayApiResult[0];
-        this.currentDay = todayApiResult[1];
+        if (!modeApiResult.hasOwnProperty('season') || !modeApiResult.hasOwnProperty('mode')) {
+          throw "Did not find required keys (mode, season) in API /mode response"
+        }
+        this.currentSeason = modeApiResult.season;
+        this.mode = mode = modeApiResult.mode;
 
-        if (this.season==null) {
+        if (url_which_season != null) {
+          this.season = url_which_season - 1;
+        } else if (url_season != null) {
+          this.season = url_season;
+        } else {
           this.season = this.currentSeason;
         }
 
@@ -69,27 +95,26 @@
 
         } else if (this.season == this.currentSeason) {
           this.updateSeasonHeader(this.season);
-          let modeUrl = this.baseApiUrl + '/mode';
-          fetch(modeUrl)
-          .then(res => res.json())
-          .then((modeApiResult) => {
-            var mode = modeApiResult.mode;
-            if (mode < 0) {
-              this.eror(-1);
-            } else if (mode < 10 || this.currentDay==0) {
-              this.seasonWaitingMessage()
-            } else {
-              this.processSeasonData(this.season);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            this.error(-1);
-          });
+          if (mode < 0) {
+            throw "Invalid mode " + mode;
+          } else if (mode < 10) {
+            // Season has not started
+            this.seasonWaitingMessage();
+          } else if (mode < 20 && modeApiResult.elapsed < 3600) {
+            // For the first 1 day, there is no data to show
+            this.seasonWaitingMessage();
+          } else {
+            // Show all the data
+            this.processSeasonData(this.season);
+          }
+
+        } else {
+          throw "Invalid season number requested: " + this.season;
         }
 
       })
       .catch(err => {
+        console.log("Encountered error while calling /mode API endpoint");
         console.log(err);
         this.error(-1);
       });
@@ -98,7 +123,7 @@
 
     seasonWaitingMessage : function() {
       // Hide loading message
-      this.loadingElem.classList.add('invisible');
+      this.loading(false);
       // Show waiting for postseason message
       var waitingElem = document.getElementById('container-season-waiting');
       waitingElem.classList.remove('invisible');
@@ -134,7 +159,7 @@
       .then(res => res.json())
       .then((seasonApiResult) => {
 
-        this.loadingElem.classList.add('invisible');
+        this.loading(false);
 
         var seasonDaysContainer = document.getElementById('season-days-container');
         seasonDaysContainer.classList.remove('invisible');
@@ -144,6 +169,7 @@
     
       })
       .catch(err => {
+        console.log("Encountered error while calling /season API endpoint");
         console.log(err);
         this.error(-1);
       });

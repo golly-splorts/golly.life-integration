@@ -28,13 +28,20 @@
      * Handle the case of an error, tell the user something is wrong
      */
     error : function(mode) {
+
       // Hide elements
-      this.loadingElem.classList.add('invisible');
+      this.loading(false);
+
       for (var c in this.containers) {
-        var elem = document.getElementById(this.containers[c]);
-        elem.classList.add('invisible');
+        try {
+          var elem = document.getElementById(this.containers[c]);
+          elem.classList.add('invisible');
+        } catch (e) {
+          // do nothing
+        }
       }
 
+      // Show error 
       var container = document.getElementById('container-error');
       container.classList.remove("invisible");
     },
@@ -42,9 +49,19 @@
     /**
      * Show the site loading message while waiting for the API response
      */
-    loading : function() {
-      this.loadingElem = document.getElementById('container-loading');
-      this.loadingElem.classList.remove('invisible');
+    loading : function(show = true) {
+      var loadingMessages = document.getElementsByClassName("loading-message");
+      var m;
+      for (m = 0; m < loadingMessages.length; m++) {
+        var elem = loadingMessages[m];
+        if (show) {
+          // Reveal the loading message
+          elem.classList.remove('invisible');
+        } else {
+          // Remove the loading message
+          elem.remove();
+        }
+      }
     },
 
     /**
@@ -53,54 +70,56 @@
      */
     loadConfig : function() {
 
-      this.season = this.helpers.getUrlParameter('season');
+      // season parameter is zero-indexed
+      var url_season = this.helpers.getUrlParameter('season');
+      // which_season parameter is one-indexed
+      var url_which_season = this.helpers.getUrlParameter('which_season');
 
       // Check current season and day
-      let url = this.baseApiUrl + '/today';
+      let url = this.baseApiUrl + '/mode';
       fetch(url)
       .then(res => res.json())
-      .then((todayApiResult) => {
+      .then((modeApiResult) => {
 
-        this.currentSeason = todayApiResult[0];
-        this.currentDay = todayApiResult[1];
+        if (!modeApiResult.hasOwnProperty('season') || !modeApiResult.hasOwnProperty('mode')) {
+          throw "Did not find required keys (mode, season) in API /mode response"
+        }
+        this.currentSeason = modeApiResult.season;
+        this.mode = mode = modeApiResult.mode;
 
-        if (this.season==null) {
+        if (url_which_season != null) {
+          this.season = url_which_season - 1;
+        } else if (url_season != null) {
+          this.season = url_season;
+        } else {
           this.season = this.currentSeason;
         }
 
         if (this.season < this.currentSeason) {
           this.updatePostseasonHeader(this.season);
-          this.processPostseasonData(this.season, this.currentSeason, this.currentDay);
+          this.processPostseasonData(this.season);
 
         } else if (this.season == this.currentSeason) {
           this.updatePostseasonHeader(this.season);
-          let modeUrl = this.baseApiUrl + '/mode';
-          fetch(modeUrl)
-          .then(res => res.json())
-          .then((modeApiResult) => {
-            var mode = modeApiResult.mode;
-            this.mode = mode;
-            if (mode < 0) {
-              this.error(-1);
-            } else if ((mode < 20) || (mode == 21)) {
-              // This also happens when waiting for first postseason series
-              this.postseasonWaitingMessage()
-            } else {
-              this.processPostseasonData(this.season, this.currentSeason, this.currentDay);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            this.error(-1);
-          });
+          if (mode < 0) {
+            throw "Invalid mode " + mode;
+          } else if ((mode < 20) || (mode==21)) {
+            // Waiting for postseason to start
+            this.postseasonWaitingMessage()
+          } else if (mode==31 && modeApiResult.elapsed<3600) {
+            // Waiting for first day to finish
+            this.postseasonWaitingMessage()
+          } else {
+            this.processPostseasonData(this.season);
+          }
 
         } else {
-          var elem = document.getElementById('container-invalid');
-          elem.classList.remove('invisible');
+          throw "Invalid season number requested: " + this.season;
         }
 
       })
       .catch(err => {
+        console.log("Encountered error when calling /mode API endpoint");
         console.log(err);
         this.error(-1);
       });
@@ -109,67 +128,71 @@
 
     postseasonWaitingMessage : function() {
       // Hide loading message
-      this.loadingElem.classList.add('invisible');
-      // Show waiting for postseason message
+      this.loading(false);
+      // Show waiting message
       var waitingElem = document.getElementById('container-postseason-waiting');
       waitingElem.classList.remove('invisible');
     },
 
     /**
+     * Update the "Season X" header
+     */
+    updatePostseasonHeader : function(season0) {
+
+      var seasonHeaderContainer = document.getElementById('season-header-container');
+
+      // get element by id "landing-header-season" and change innerHTML to current season
+      var seasonHead = document.getElementById('season-header-season-number');
+      if (seasonHead != null) {
+        var sp1 = parseInt(season0) + 1;
+        seasonHead.innerHTML = sp1;
+      }
+
+      seasonHeaderContainer.classList.remove('invisible');
+
+    },
+
+    /**
      * Get postseason games data and do stuff with it.
      */
-    processPostseasonData : function(season0, currentSeason, currentDay) {
+    processPostseasonData : function(season0) {
 
-      // Get team data
-      let teamsUrl = this.baseApiUrl + '/teams/' + season0;
-      fetch(teamsUrl)
+      // Get postseason
+      let postseasonUrl = this.baseApiUrl + '/postseason/' + season0;
+      fetch(postseasonUrl)
       .then(res => res.json())
-      .then((teamsApiResult) => {
+      .then((postseasonApiResult) => {
 
-        this.teamsApiResult = teamsApiResult;
+        this.loading(false);
 
-        // Get postseason
-        let postseasonUrl = this.baseApiUrl + '/postseason/' + season0;
-        fetch(postseasonUrl)
-        .then(res => res.json())
-        .then((postseasonApiResult) => {
+        // Show table of contents
+        var tocId = 'postseason-toc-container';
+        var tocElem = document.getElementById(tocId);
+        tocElem.classList.remove('invisible');
 
-          // Remove loading message
-          this.loadingElem.classList.add('invisible');
+        if (this.mode >= 40 || season0 < this.currentSeason) {
+          this.fillChampionsContainer(season0);
+        }
 
-          // Show table of contents
-          var tocElem = document.getElementById('postseason-toc-container');
-          tocElem.classList.remove('invisible');
-
-          for (var series in postseasonApiResult) {
-
-            // If it is current season, some game series may be empty lists
-            if (postseasonApiResult[series].length > 0) {
-
-              // Get lowercase series name
-              var lower = series.toLowerCase();
-              this.addTocLink(lower);
-              if (lower=='lds') {
-                this.fillLdsSeriesContainer(postseasonApiResult[series]);
-              } else if (lower=='lcs') {
-                this.fillLcsSeriesContainer(postseasonApiResult[series]);
-              } else if (lower=='hcs') {
-                this.fillHcsSeriesContainer(postseasonApiResult[series]);
-                this.fillChampionsContainer(postseasonApiResult[series], season0, currentSeason);
-              }
-
+        for (var series in postseasonApiResult) {
+          // If it is current season, some game series may be empty lists
+          if (postseasonApiResult[series].length > 0) {
+            // Get lowercase series name
+            var lower = series.toLowerCase();
+            this.addTocLink(lower);
+            if (lower=='lds') {
+              this.fillLdsSeriesContainer(postseasonApiResult[series]);
+            } else if (lower=='lcs') {
+              this.fillLcsSeriesContainer(postseasonApiResult[series]);
+            } else if (lower=='hcs') {
+              this.fillHcsSeriesContainer(postseasonApiResult[series]);
             }
-
-          } // end for each series
-
-        })
-        .catch(err => {
-          console.log(err);
-          this.error(-1);
-        });
+          }
+        } // end for each series
 
       })
       .catch(err => {
+        console.log("Encountered error while calling /postseason endpoint");
         console.log(err);
         this.error(-1);
       });
@@ -322,141 +345,92 @@
     /**
      * Populate a champion title with the champion, if there is one.
      */
-    fillChampionsContainer : function(miniseason, season0, currentSeason) {
+    fillChampionsContainer : function(season0) {
 
       var container = document.getElementById('postseason-champion-container');
       var championTeamElem = document.getElementById('champion-team');
 
-      if (season0 < currentSeason) {
+      // Get champion
+      let champUrl = this.baseApiUrl + '/champion/' + season0;
+      fetch(champUrl)
+      .then(res => res.json())
+      .then((champApiResult) => {
 
-        // Past season, get champion from last game of miniseason
-        var lastday = miniseason[miniseason.length-1];
-        var lastgame = lastday[0];
-        var t1w = lastgame['team1SeriesWinLoss'][0];
-        var t2w = lastgame['team2SeriesWinLoss'][0];
-        var t1s = lastgame['team1Score'];
-        var t2s = lastgame['team2Score'];
+        var winTeamname, winTeamColor, winTeamAbbr;
 
-        var winTeamName, winTeamColor;
-
-        // Get winning team name and color
-        winTeamName, winTeamColor = null, null;
-        if ((t1w==3) || (t2w==3)) {
-          if ((t1w==3) && (t1s > t2s)) {
-            winTeamName = lastgame['team1Name'];
-            winTeamColor = lastgame['team1Color'];
-          } else if ((t2w==3) && (t2s > t1s)) {
-            winTeamName = lastgame['team2Name'];
-            winTeamColor = lastgame['team2Color'];
-          }
+        if (!champApiResult.hasOwnProperty('teamName')) {
+          throw "Error getting required key (teamName) from /champion API response";
+        } else {
+          winTeamName = champApiResult.teamName;
         }
-        if (winTeamName != null && winTeamColor != null) {
 
-          // We found a champion, populate champion name/color
+        if (!champApiResult.hasOwnProperty('teamColor')) {
+          throw "Error getting required key (teamColor) from /champion API response";
+        } else {
+          winTeamColor = champApiResult.teamColor;
+        }
+
+        if (!champApiResult.hasOwnProperty('teamAbbr')) {
+          throw "Error getting required key (teamAbbr) from /champion API response";
+        } else {
+          winTeamAbbr = champApiResult.teamAbbr;
+        }
+
+        // Populate champion name/color
+        if (winTeamName != null && winTeamColor != null) {
           championTeamElem.innerHTML = winTeamName;
           championTeamElem.style.color = winTeamColor;
           container.classList.remove('invisible');
+        } else {
+          throw "Error finding winning team name/color from /champion API response";
+        }
 
-          // Draw team icon
-          var winTeamAbbr = null;
-          for (k = 0; k < this.teamsApiResult.length; k++) {
-            if (this.teamsApiResult[k].teamName == winTeamName) {
-              winTeamAbbr = this.teamsApiResult[k].teamAbbr;
-              break;
+        // Draw team icon
+        if (winTeamAbbr != null) {
+
+          var iconSize = "250";
+          var iconId = "champion-icon";
+          var icontainerId = "champion-icon-container";
+          var icontainer = document.getElementById(icontainerId);
+          var svg = document.createElement("object");
+
+          svg.setAttribute('type', 'image/svg+xml');
+          svg.setAttribute('data', '../img/' + winTeamAbbr.toLowerCase() + '.svg');
+          svg.setAttribute('height', iconSize);
+          svg.setAttribute('width', iconSize);
+          svg.setAttribute('id', iconId);
+          svg.classList.add('icon');
+          svg.classList.add('team-icon');
+          svg.classList.add('invisible');
+          icontainer.appendChild(svg);
+
+          // Wait a little bit for the data to load,
+          // then modify the color and make it visible
+          var paint = function(color, elemId) {
+            var mysvg = $('#' + elemId).getSVG();
+            var child = mysvg.find("g path:first-child()");
+            if (child.length > 0) {
+              child.attr('fill', color);
+              $('#' + elemId).removeClass('invisible');
             }
           }
-          if (winTeamAbbr != null) {
+          // This fails pretty often, so try a few times.
+          setTimeout(paint, 100,  winTeamColor, iconId);
+          setTimeout(paint, 250,  winTeamColor, iconId);
+          setTimeout(paint, 500,  winTeamColor, iconId);
+          setTimeout(paint, 1000, winTeamColor, iconId);
+          setTimeout(paint, 1500, winTeamColor, iconId);
 
-            var iconSize = "250";
-            var iconId = "champion-icon";
-            var icontainerId = "champion-icon-container";
-            var icontainer = document.getElementById(icontainerId);
-            var svg = document.createElement("object");
+        } else {
+          throw "Error finding winning team abbr from /champion API response";
+        }
 
-            svg.setAttribute('type', 'image/svg+xml');
-            svg.setAttribute('data', '../img/' + winTeamAbbr.toLowerCase() + '.svg');
-            svg.setAttribute('height', iconSize);
-            svg.setAttribute('width', iconSize);
-            svg.setAttribute('id', iconId);
-            svg.classList.add('icon');
-            svg.classList.add('team-icon');
-            svg.classList.add('invisible');
-            icontainer.appendChild(svg);
-
-            // Wait a little bit for the data to load,
-            // then modify the color and make it visible
-            var paint = function(color, elemId) {
-              var mysvg = $('#' + elemId).getSVG();
-              var child = mysvg.find("g path:first-child()");
-              if (child.length > 0) {
-                child.attr('fill', color);
-                $('#' + elemId).removeClass('invisible');
-              }
-            }
-            // This fails pretty often, so try a few times.
-            setTimeout(paint, 100,  winTeamColor, iconId);
-            setTimeout(paint, 250,  winTeamColor, iconId);
-            setTimeout(paint, 500,  winTeamColor, iconId);
-            setTimeout(paint, 1000, winTeamColor, iconId);
-            setTimeout(paint, 1500, winTeamColor, iconId);
-
-          } // end if found winning team abbr
-        } // end if found winning team name/color
-
-      } else {
-
-        // Current season, get champion from /champion API endpoint
-        let url = this.baseApiUrl + '/champion';
-        fetch(url)
-        .then(res => res.json())
-        .then((apiResult) => {
-
-          if (apiResult.hasOwnProperty('champion') &&
-              apiResult.hasOwnProperty('color') &&
-              apiResult.hasOwnProperty('abbr')
-          ) {
-
-            var winTeamName = apiResult['champion'];
-            var winTeamColor = apiResult['color'];
-            var winTeamAbbr = apiResult['abbr'];
-
-            // We found a champion, populate champion name/color
-            championTeamElem.innerHTML = winTeamName;
-            championTeamElem.style.color = winTeamColor;
-            container.classList.remove('invisible');
-
-            // Draw team icon
-            var iconSize = "250";
-            var iconId = "champion-icon";
-            var icontainerId = "champion-icon-container";
-            var icontainer = document.getElementById(icontainerId);
-            var svg = document.createElement("object");
-            svg.setAttribute('type', 'image/svg+xml');
-            svg.setAttribute('data', '../img/' + winTeamAbbr.toLowerCase() + '.svg');
-            svg.setAttribute('height', iconSize);
-            svg.setAttribute('width', iconSize);
-            svg.setAttribute('id', iconId);
-            svg.classList.add('icon');
-            svg.classList.add('team-icon');
-            svg.classList.add('invisible');
-            icontainer.appendChild(svg);
-
-            // Wait a little bit for the data to load,
-            // then modify the color and make it visible
-            setTimeout(function(color, elemId) {
-              var mysvg = $('#' + elemId).getSVG();
-              mysvg.find("g path:first-child()").attr('fill', color);
-              $('#' + elemId).removeClass('invisible');
-            }, 250, winTeamColor, iconId);
-
-          } // end if we have a champion
-        })
-        .catch(err => {
-          console.log(err);
-          this.error(-1);
-        }); // end /champion api call
-
-      } // end if past season/current season
+      })
+      .catch(err => {
+        console.log("Encountered error while calling /champion API endpoint");
+        console.log(err);
+        this.error(-1);
+      }); // end /champion api call
 
     },
 
@@ -590,32 +564,15 @@
     },
 
     /**
-     * Update the "Season X" or "Season X Day Y" header with information
-     * from the API /today endpoint.
-     */
-    updatePostseasonHeader : function(season0) {
-
-      var seasonHeaderContainer = document.getElementById('season-header-container');
-
-      // get element by id "landing-header-season" and change innerHTML to current season
-      var seasonHead = document.getElementById('season-header-season-number');
-      if (seasonHead != null) {
-        var sp1 = parseInt(season0) + 1;
-        seasonHead.innerHTML = sp1;
-      }
-
-      seasonHeaderContainer.classList.remove('invisible');
-
-    },
-
-    /**
      * For the given postseason series,
      * make the corresponding TOC link visible
      */
     addTocLink : function(lower) {
       var idLabel = lower + '-postseason-toc-text';
       var tocElem = document.getElementById(idLabel);
-      //tocElem.classList.remove('invisible');
+      if (tocElem==null) { 
+        throw "Could not find table of contents element with id " + idLabel;
+      }
       tocElem.setAttribute('href', '#' + lower);
     },
 

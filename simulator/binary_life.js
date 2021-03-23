@@ -1595,7 +1595,7 @@
         var state = GOL.listLife.actualState;
         var liveCells = 0;
         for (i = 0; i < state.length; i++) {
-         if ((state[i][0] >= 0) && (state[i][0] < GOL.rows)) {
+          if ((state[i][0] >= 0) && (state[i][0] < GOL.rows)) {
             for (j = 1; j < state[i].length; j++) {
               if ((state[i][j] >= 0) && (state[i][j] < GOL.columns)) {
                 liveCells++;

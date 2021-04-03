@@ -1,1 +1,1 @@
-integration stage of [pseudo.golly.life](https://pseudo.golly.life)
+integration stage of [golly.life](https://golly.life)

@@ -1699,7 +1699,35 @@
               }
             }
 
-            if (!(neighbors === 0 || neighbors === 1 || neighbors > 3)) {
+            // survive counts
+            //
+            // // 34 life (too slow)
+            // if ((neighbors == 3) || (neighbors == 4)) {
+            // // coagulations (blows up)
+            // if (!(neighbors === 1)) {
+            // // gnarl (way too slow/chaotic)
+            // if (neighbors === 1) {
+            // // long life (boring)
+            // if (neighbors===5) {
+            // // stains (too slow)
+            // if (!((neighbors===1)||(neighbors===4))) {
+            // // walled cities
+            // if ((neighbors > 1) && (neighbors < 6)) {
+            //
+            // // conway's life
+            // if (!(neighbors === 0 || neighbors === 1 || neighbors > 3)) {
+            // // amoeba life (good)
+            // if ((neighbors === 1) || (neighbors === 3) || (neighbors === 5) || (neighbors === 8)) {
+            // // high life (good, but some oscillators blow up)
+            // if ((neighbors===2)||(neighbors===3)) {
+            // // 2x2 (good, but victory conditions *may* need to change)
+            // if ((neighbors===1)||(neighbors===2)||(neighbors===5)){
+            // // // pseudo life (good)
+            // if ((neighbors===2)||(neighbors===3)||(neighbors===8)) {
+
+            // conway's life
+            if ((neighbors===2)||(neighbors===3)) {
+
               this.addCell(x, y, newState);
               if (color==1) {
                 this.addCell(x, y, newState1);
@@ -1715,7 +1743,36 @@
 
         // Process dead neighbors
         for (key in allDeadNeighbors) {
+
+          // birth counts
+          //
+          // // 34 life (too slow)
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 4)) {
+          // coagulations
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 7) || (allDeadNeighbors[key] === 8)) {
+          // // gnarl (way too slow/chaotic)
+          // if (allDeadNeighbors[key] === 1) {
+          // // long life (boring)
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 4) || (allDeadNeighbors[key] === 5)) {
+          // // stains (too slow)
+          // if ((allDeadNeighbors[key]===3)||(allDeadNeighbors[key]>5)) {
+          // // walled cities (boring)
+          // if (allDeadNeighbors[key] > 3) {
+          //
+          // // conway's life
+          // if (allDeadNeighbors[key] === 3) {
+          // // amoeba life (good)
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 5) || (allDeadNeighbors[key] === 7)) {
+          // // high life (good, but some oscillators blow up)
+          // if ((allDeadNeighbors[key] === 3) || (allDeadNeighbors[key] === 6)) {
+          // // 2x2 (good, but victory conditions *may* need to change)
+          // if ((allDeadNeighbors[key]===3) || (allDeadNeighbors[key]===6)) {
+          // // // pseudo life (good)
+          // if ((allDeadNeighbors[key]==3)||(allDeadNeighbors[key]==5)||(allDeadNeighbors[key]==7)) {
+
+          // conway's life
           if (allDeadNeighbors[key] === 3) {
+
             // This cell is dead, but has enough neighbors
             // that are alive that it will make new life.
             key = key.split(',');

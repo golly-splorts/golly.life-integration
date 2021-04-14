@@ -63,24 +63,24 @@
 
       schemes : [
         {
-          alive: ['#3b9dff', '#dc3220'],
-          alive_labels: ['Blue', 'Red']
-        },
-        {
           alive: ['#ffc20a', '#0c7bdc'],
           alive_labels: ['Yellow', 'Blue']
-        },
-        {
-          alive: ['#fefe62', '#d35fb7'],
-          alive_labels: ['Yellow', 'Pink']
         },
         {
           alive: ['#e66100', '#9963ab'],
           alive_labels: ['Orange', 'Purple']
         },
         {
+          alive: ['#3b9dff', '#dc3220'],
+          alive_labels: ['Blue', 'Red']
+        },
+        {
           alive: ['#1a85ff', '#d41159'],
           alive_labels: ['Blue', 'Pink']
+        },
+        {
+          alive: ['#fefe62', '#d35fb7'],
+          alive_labels: ['Yellow', 'Pink']
         }
       ],
     },
